@@ -1,0 +1,14 @@
+c0194032c262c0c2b6c73a899c231bb5 *DESCRIPTION
+8b54e5a89fbda3af5e077053d40bec76 *NAMESPACE
+0cefeb493c6a97487c3868a4dbf05eeb *R/posthoc.friedman.nemenyi.test.R
+696d824c1571979f09847d634754047d *R/posthoc.kruskal.nemenyi.test.R
+a4d5c13a83d4c00812dd6c0414905f78 *build/vignette.rds
+5619d562e256e371deb2df325744bd2d *inst/CITATION
+21c39d8a5ee294e0af283a84727a7cc8 *inst/doc/PMCMR.R
+4124793f854cabfe61f51129631642df *inst/doc/PMCMR.Rnw
+81bd834878ef923d4afc3718888becfc *inst/doc/PMCMR.pdf
+a7bed11affcd978f841170ab63096821 *man/PMCMR-package.Rd
+38237252164d477eb0766e836d48a96b *man/posthoc.friedman.nemenyi.test.Rd
+07ff55dc8ae995b89918be09542af231 *man/posthoc.kruskal.nemenyi.test.Rd
+4124793f854cabfe61f51129631642df *vignettes/PMCMR.Rnw
+0f1b0317d370a0981dfb3a19d9817779 *vignettes/PMCMR.bib

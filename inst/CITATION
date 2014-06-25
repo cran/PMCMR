@@ -1,0 +1,10 @@
+citHeader("To cite package PMCMR in publications use:")
+
+citEntry(entry="Manual",
+  title = "The Pairwise Multiple Comparison of Mean Ranks Package (PMCMR)",
+  author = "Thorsten Pohlert",
+  year =	 "2014",
+  note =	 "R package",
+  textVersion = paste("Pohlert, T., 2014. The Pairwise Multiple Comparison",
+   "of Mean Ranks Package (PMCMR). R. package.") 
+)

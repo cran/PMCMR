@@ -1,0 +1,214 @@
+%\VignetteIndexEntry{Pairwise Multiple Comparison of Mean Rank Sums}
+%\VignetteDepends{PMCMR}
+%\VignetteKeywords{Nemenyi test}
+%\VignettePackage{PMCMR}
+%\documentclass[a4paper]{amsart}
+%\documentclass[a4paper]{article}
+\documentclass[a4paper]{scrartcl}
+\usepackage{Sweave}
+\usepackage[utf8]{inputenc}
+\usepackage{natbib}
+\usepackage{url}
+
+%\SweaveOpts{concordance=TRUE}
+
+\title{The Pairwise Multiple Comparison of Mean Ranks Package (PMCMR)}
+\author{Thorsten Pohlert}
+
+\begin{document}
+\bibliographystyle{jss}
+%\bibliographystyle{elsarticle-harv}
+
+\maketitle
+\begin{small}
+{\copyright} Thorsten Pohlert. This work is licensed under a Creative Commons License (CC BY-ND 4.0). See \url{http://creativecommons.org/licenses/by-nd/4.0/} for details. Please cite this package as: T. Pohlert (2014). \textit{The Pairwise Multiple Comparison of Mean Ranks Package (PMCMR).} R package. See also \texttt{citation("PMCMR")}.
+\end{small}
+
+
+\tableofcontents
+
+\section{Introduction}
+For one-factorial designs with samples that do not meet the assumptions for one-way-ANOVA (i.e., i) errors are normally distributed, ii) equal variances among the groups, and, iii) uncorrelated errors) and subsequent post-hoc tests, the Kruskal-Wallis test  (\texttt{kruskal.test}) can be employed that is also referred to as the \mbox{Kruskal–Wallis} one-way analysis of variance by ranks. Provided that significant differences were detected by the Kruskal-Wallis-Test, one may be interested in applying post-hoc tests for pairwise multiple comparisons of the ranked data. Similarly, one-way ANOVA with repeated measures that is also referred to as ANOVA with unreplicated block design can also be conducted via the Friedman test (\texttt{friedman.test}). The consequent post-hoc pairwise multiple comparison test according to Nemenyi is also provided in this package.
+
+\section{Comparison of multiple independent samples (One-factorial design)}
+
+\subsection{Kruskal and Wallis test}
+
+The linear model of a one-way layout can be written as:
+\begin{equation}
+ y_{i} = \mu + \alpha_{i} + \epsilon_{i} ,
+\end{equation}
+
+with $y$ the response vector, $\mu$ the global mean of the data, $\alpha_i$ the difference to the mean of the $i$-th group and $\epsilon$ the residual error. The non-parametric alternative is the Kruskal and Wallis test. It tests the null hypothesis, that each of the $k$ samples belong to the same population ($H_0: \bar{R}_{i.} = (n + 1 ) / 2$). First, the response vector $y$ is transformed into ranks with increasing order. In the presence of sequences with equal values (i.e. ties), mean ranks are designated to the corresponding realizations. Then, the test statistic can be calculated according to Eq. \ref{eq:kruskal}:
+
+\begin{equation}\label{eq:kruskal}
+\hat{H} = \left[ \frac{12}{n\left(n + 1 \right)}\right]  \left[\sum_{i=1}^k \frac{R_i^2}{n_i} \right] - 3 \left(n + 1\right)
+\end{equation}
+
+with $n = \sum_i^k n_i$ the total sample size, $n_i$ the number of data of the $i$-th group and $R_i^2$ the squared rank sum of the $i$-th group. In the presence of many ties, the test statistics $\hat{H}$ can be corrected using Eqs. \ref{eq:tie} and \ref{eq:hcor}
+
+\begin{equation}\label{eq:tie}
+C = 1 - \frac{\sum_{i=1}^{i=r} \left(t_i^3 - t_i\right)}{n^3 - n},
+\end{equation}
+
+with $t_i$ the number of ties of the $i$-th group of ties.
+
+\begin{equation}\label{eq:hcor}
+\hat{H}^{*} = \hat{H} / C
+\end{equation}
+
+The Kruskal and Wallis test can be employed as a global test.  As the test statistic $\bar{H}$ is approximately $\chi^2$-distributed, the null hypothesis is withdrawn, if $\hat{H} > \chi^2_{k-1;\alpha}$. It should be noted, that the tie correction has only a small impact on the calculated statistic and its consequent estimation of levels of significance.
+
+\subsection{Kruskal-Wallis -- post-hoc tests after Nemenyi}
+
+Provided, that the globally conducted Kruskal-Wallis test indicates significance (i.e. $H_0$ is rejected, and $H_A:$ 'at least on of the $k$ samples does not belong to the same population' is accepted), one may be interested in identifying which group or groups are significantly different. The number of pairwise contrasts or subsequent tests that need to be conducted is $m = k \left( k - 1 \right) / 2$ to detect the differences between each group. Nemenyi proposed a test that originally based on rank sums and the application of the \emph{family-wise error} method to control Type I error inflation, if multiple comparisons are done. The Tukey and Kramer approach uses mean rank sums and can be employed for equally as well as unequally sized samples without ties \citep[p. 397]{Sachs_1997}. The null hypothesis $H_0: \bar{R}_i = \bar{R}_j$ is rejected, if a critical absolute difference of mean rank sums is exceeded.
+
+\begin{equation}\label{eq:tk}
+\left| \bar{R}_i - \bar{R}_j \right| > \frac{q_{\infty;k;\alpha}}{\sqrt{2}}   \sqrt{ \left[\frac{n \left( n + 1 \right)}{12} \right] 
+  \left[\frac{1}{n_i} + \frac{1}{n_j}\right]},
+\end{equation}
+
+where $q_{\infty;k;\alpha}$ denotes the upper quantile of the studentized range distribution. Although these quantiles can not be computed analytically, as $df = \infty$, a good approximation is to set $df$ very large: such as $q_{1000000;k;\alpha} \sim q_{\infty;k;\alpha}$. This inequality (\ref{eq:tk}) leads to the same critical differences of rank sums ($\left| R_i - R_j \right|$) when multiplied with $n$ for $\alpha = [0.1, 0.5, 0.01]$, as reported in the tables of \citep[pp. 29--31]{Wilcoxon_Wilcox_1964}. In the presence of ties the approach presented by \citep[p. 395]{Sachs_1997} can be employed, as given by inequality \ref{eq:chisq}:
+
+\begin{equation}\label{eq:chisq}
+\left| \bar{R}_i - \bar{R}_j \right| > \sqrt{C   \chi^{2}_{k-1;\alpha}   \left[\frac{n \left( n + 1 \right)}{12} \right] 
+  \left[\frac{1}{n_i} + \frac{1}{n_j}\right]},
+\end{equation}
+
+where $C$ is given by Eq. \ref{eq:tie}. The function \texttt{posthoc.kruskal.nemenyi.test()} does not evaluate the critical differences as given by Eqs. \ref{eq:tk} and \ref{eq:chisq}, but calculates the corresponding level of significance for the estimated statistics $q$ and $\chi^{2}$, respectively.
+
+In the special case, that several treatments shall only be tested against one control experiment, the number of tests reduces to $m = k - 1$. This case is not implemented in the package \texttt{PMCMR}, but can e.g. be employed with a Bonferroni-type adjustment of $\alpha$.
+
+\subsection{Examples using  \texttt{posthoc.kruskal.nemenyi.test()}}
+
+The function \texttt{kruskal.test} is provided by the package \texttt{stats} \citep{RCoreTeam}. The data-set \texttt{InsectSprays} was derived from a one factorial experimental design and can be used for demonstration purposes. Prior to the test, a visualization of the data (Fig \ref{Fig:boxplot}) might be helpful:
+
+\begin{figure}[t,b,h]
+%  \begin{center}
+<<fig=TRUE ,echo=FALSE >>=
+library("graphics")
+boxplot(count ~ spray, data=InsectSprays)
+@
+\caption{Boxplot of the \texttt{InsectSprays} data set.}\label{Fig:boxplot}
+%\end{center}
+\end{figure}
+
+Based on a visual inspection, one can assume that the insecticides \emph{A, B, F} differ from \emph{C, D, E}. The global test can be conducted in this way:
+
+<<>>=
+kruskal.test(count ~ spray, data=InsectSprays)
+@
+
+As the Kruskal-Wallis Test statistics is highly significant ($\chi^{2}(5) = 54.69, p < 0.01$), the null hypothesis is rejected. Thus, it is meaningful to apply post-hoc tests with the function \texttt{posthoc.kruskal.nemenyi.test()}. As the function has no \texttt{formula} enclosed, the response vector and the group vector have to be passed separately to the function.
+
+<<>>=
+require(PMCMR)
+data(InsectSprays)
+attach(InsectSprays)
+posthoc.kruskal.nemenyi.test(x=count, g=spray, method="Tukey")
+@
+
+The test returns the lower triangle of the matrix that contains the p-values of the pairwise comparisons. Thus $|\bar{R}_A - \bar{R}_B|: n.s.$, but $|\bar{R}_A - \bar{R}_C|: p < 0.01$. As there are ties present in the data, one may also conduct the Chi-square approach:
+
+<<>>=
+(out <- posthoc.kruskal.nemenyi.test(x=count, g=spray, method="Chisquare"))
+@
+
+which leads to different levels of significance, but to the same test decision.  The arguments of the returned object of class \emph{pairwise.h.test} can be further explored. The statistics, in this case the $\chi^{2}$ estimations, can be taken in this way:
+
+<<>>=
+print(out$statistic)
+@ 
+
+The test results can be aligned into a summary table as it is common in scientific articles. However, there is not yet a function included in the package \texttt{PMCMR}. Therefore, Table \ref{tab:summary} was manually created.
+
+\begin{table}[b,h]
+\caption{Mean rank sums of insect counts ($\bar{R}_i$) after the application of insecticides (Group). Different letters indicate significant differences ($p < 0.05$) according to the Tukey-Kramer-Nemenyi post-hoc test. The global test according to Kruskal and Wallis indicated significance ($\chi^{2}(5) = 54.69, p < 0.01$). }\label{tab:summary}
+\begin{tabular}{ccl}
+\hline
+Group & $\bar{R}_i$ &  \\
+\hline
+C & 11.46 & a \\ 
+E & 19.33 & a \\
+D & 25.58 & a \\
+A & 52.17 & b \\
+B & 54.83 & b \\
+F & 55.62 & b \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Comparison of multiple joint samples (Two-factorial unreplicated complete block design)}
+
+\subsection{Friedman test}
+The linear model of a two factorial unreplicated complete block design can be written as:
+
+\begin{equation}
+  y_{i,j} = \mu +  \alpha_{i} + \pi_{j} + \epsilon_{i,j}
+\end{equation}
+
+with $\pi_{j}$ the $j$-th level of the block (e.g. the specific response of the $j$-th test person). The Friedman test is the non-parametric alternative for this type of $k$ dependent treatment groups with equal sample sizes. The null hypothesis, $H0: F(1) = F(2) = \ldots = F(k)$ is tested against the alternative hypothesis: at least one group does not belong to the same population. The response vector $y$ has to be ranked in ascending order separately for each block  $\pi_{j}: j = 1, \ldots m$. After that, the statistics of the Friedman test is calculated according to Eq. \ref{eq:friedman}:
+
+\begin{equation}\label{eq:friedman}
+\hat{\chi}^2_R = \left[ \frac{12}{n   k \left( k + 1 \right)} \sum_{i=1}^k R_i \right] - 3   n \left(k + 1\right)
+\end{equation}
+
+The Friedman statistic is approximately $\chi^{2}$-distributed and the null hypothesis is rejected, if $\hat{\chi}²_R > \chi^2_{k-1;\alpha}$.
+
+\subsection{Friedman -- post-hoc test after Nemenyi}
+
+Provided that the Friedman test indicates significance, the post-hoc test according to Nemenyi can be employed \citep[p. 668]{Sachs_1997}. This test requires equal sample sizes $\left(n_1 = n_2 = \ldots = n_k = n \right)$ for each group $k$ and a Friedman-type ranking of the data. The inequality \ref{eq:demsar} was taken from \citet[p. 11]{Demsar_2006}, where the critical difference refer to mean rank sums ($\left| \bar{R}_i - \bar{R}_j \right|$):
+
+
+\begin{equation}\label{eq:demsar}
+\left| \bar{R}_i - \bar{R}_j \right| > \frac{q_{\infty;k;\alpha}}{\sqrt{2}}   \sqrt{\frac{k \left( k + 1 \right)}{6   n}}
+\end{equation}
+
+ This inequality (\ref{eq:demsar}) leads to the same critical differences of rank sums ($\left| R_i - R_j \right|$) when multiplied with $n$ for $\alpha = [0.1, 0.5, 0.01]$, as reported in the tables of \citet[pp. 36--38]{Wilcoxon_Wilcox_1964}. Likewise to the \texttt{posthoc.kruskal.nemenyi.test()} the function \texttt{posthoc.friedman.nemenyi.test()} calculates the corresponding levels of significance and the generic function \texttt{print} depicts the lower triangle of the matrix that contains these p-values.
+
+
+\subsection{Example using  \texttt{posthoc.friedman.nemenyi.test()}}
+This example is taken from \citet[p. 675]{Sachs_1997} and is also included in the help page of the function \texttt{posthoc.friedman.nemenyi.test()}. In this experiment, six persons (block) subsequently received six different diuretics (groups) that are denoted A to F. The responses are the concentration of Na in urine measured two hours after each treatment. 
+
+<<>>=
+require(PMCMR)
+y <- matrix(c(
+3.88, 5.64, 5.76, 4.25, 5.91, 4.33, 30.58, 30.14, 16.92,
+23.19, 26.74, 10.91, 25.24, 33.52, 25.45, 18.85, 20.45, 
+26.67, 4.44, 7.94, 4.04, 4.4, 4.23, 4.36, 29.41, 30.72,
+32.92, 28.23, 23.35, 12, 38.87, 33.12, 39.15, 28.06, 38.23,
+26.65),nrow=6, ncol=6, 
+dimnames=list(1:6,c("A","B","C","D","E","F")))
+print(y)
+@
+
+Based on a visual inspection (Fig. \ref{fig:urine}), one may assume different responses of Na-concentration in urine as related to the applied diuretics.
+
+\begin{figure}[h,t,b]
+\begin{center}
+<<fig=TRUE ,echo=FALSE >>=
+library("graphics")
+groups <- gl(6,6,labels=colnames(y))
+boxplot(as.vector(y) ~ groups)
+@
+\end{center}
+\caption{Na-concentration (mval) in urine of six test persons after treatment with six different diuretics.}\label{fig:urine}
+\end{figure}
+
+The global test is the Friedman test, that is already implemented in the package \texttt{stats} \citep{RCoreTeam}:
+<<>>=
+friedman.test(y)
+@
+
+As the Friedman test indicates significance ($\chi^2(5) = 23.3, p < 0.01$), it is meaningful to conduct multiple comparisons in order to identify differences between the diuretics.
+
+<<>>=
+posthoc.friedman.nemenyi.test(y)
+@
+
+According to the Nemenyi post-hoc test for multiple joint samples, the treatment F based on the Na diuresis differs highly significant ($p < 0.01$) to A and D, and E differs significantly ($p < 0.05$) to A. Other contrasts are not significant ($p > 0.05$). This is the same test decision as given by \citep[p. 675]{Sachs_1997}. 
+
+\bibliography{PMCMR}
+\end{document}
+
+
