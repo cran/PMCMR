@@ -3,7 +3,7 @@
 \alias{PCMCR}
 \docType{package}
 \title{
-Calculate pairwise multiple comparisons between mean rank sums.
+Calculate pairwise multiple comparisons between mean rank sums
 }
 \description{
 The Kruskal–Wallis one-way analysis of variance by ranks can be employed, if the data do not meet the assumptions for one-way ANOVA. Provided that significant differences were detected by the Kruskal-Wallis test, one may be interested in applying post-hoc tests according to Nemenyi for pairwise multiple comparisons of the ranked data. Similarly, one-way ANOVA with repeated measures that is also referred to as ANOVA with unreplicated block design can also be conducted via the Friedman test (\code{friedman.test}). The consequent post-hoc pairwise multiple comparison test according to Nemenyi is also provided in this package.
@@ -12,8 +12,8 @@ The Kruskal–Wallis one-way analysis of variance by ranks can be employed, if t
 \tabular{ll}{
 Package: \tab PMCMR \cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2014-06-24\cr
+Version: \tab 1.1 \cr
+Date: \tab 2015-03-23\cr
 License: \tab >= GPL-3\cr
 }
 

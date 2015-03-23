@@ -1,5 +1,7 @@
 \name{posthoc.friedman.nemenyi.test}
 \alias{posthoc.friedman.nemenyi.test}
+\alias{posthoc.friedman.nemenyi.test.default}
+\alias{posthoc.friedman.nemenyi.test.formula}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -10,7 +12,14 @@ Pairwise post-hoc Test for Multiple Comparisons of Mean Rank Sums for Unreplicat
 Calculate pairwise comparisons using Nemenyi post-hoc test for unreplicated blocked data. This test is usually conducted post-hoc after significant results of the \code{friedman.test}. The statistics refer to upper quantiles of the studentized range distribution (\code{Tukey}).
 }
 \usage{
-posthoc.friedman.nemenyi.test(y, groups, blocks)
+posthoc.friedman.nemenyi.test(y, \dots)
+
+\method{posthoc.friedman.nemenyi.test}{default} (y, groups, blocks,
+\dots)
+
+\method{posthoc.friedman.nemenyi.test}{formula} (formula, data, subset,
+na.action, \ldots)
+
 }
 
 %- maybe also 'usage' for other objects documented here.
@@ -21,11 +30,24 @@ posthoc.friedman.nemenyi.test(y, groups, blocks)
 }
   \item{groups}{
 %%     ~~Describe \code{g} here~~
-  a vector giving the group for the corresponding elements of \emph{y} if this is a vector; ignored if \emph{y} is a matrix. If not a factor object, it is coerced to one.
+  a vector giving the group for the corresponding elements of \code{y} if this is a vector; ignored if \code{y} is a matrix. If not a factor object, it is coerced to one.
  }
-\item{blocks}{
- a vector giving the block for the corresponding elements of \emph{y} if this is a vector; ignored if \emph{y} is a matrix. If not a factor object, it is coerced to one.
-}
+\item{blocks}{ a vector giving the block for the corresponding elements
+  of \code{y} if this is a vector; ignored if \code{y} is a matrix. If
+  not a factor object, it is coerced to one.}
+\item{formula}{a formula of the form \code{a ~ b | c}, where \code{a},
+    \code{b} and \code{c} give the data values and corresponding groups
+    and blocks, respectively.}
+\item{data}{an optional matrix or data frame (or similar: see
+    \code{\link{model.frame}}) containing the variables in the
+    formula \code{formula}.  By default the variables are taken from
+    \code{environment(formula)}.}
+\item{subset}{an optional vector specifying a subset of observations
+  to be used.}
+\item{na.action}{a function which indicates what should happen when
+    the data contain \code{NA}s.  Defaults to
+    \code{getOption("na.action")}.}
+\item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

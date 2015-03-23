@@ -1,5 +1,9 @@
 \name{posthoc.kruskal.nemenyi.test}
 \alias{posthoc.kruskal.nemenyi.test}
+\alias{posthoc.kruskal.nemenyi.test.default}
+\alias{posthoc.kruskal.nemenyi.test.formula}
+
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -10,21 +14,46 @@ Pairwise Test for Multiple Comparisons of Mean Rank Sums (Nemenyi-Tests)
 Calculate pairwise multiple comparisons between group levels. These tests are sometimes referred to as Nemenyi-tests for multiple comparisons of (mean) rank sums of independent samples.
 }
 \usage{
-posthoc.kruskal.nemenyi.test(x, g, method = c("Tukey", "Chisquare"))
+posthoc.kruskal.nemenyi.test(x, \dots)
+
+\method{posthoc.kruskal.nemenyi.test}{default}( x, g, dist =
+c("Tukey", "Chisquare"), \dots)
+
+\method{posthoc.kruskal.nemenyi.test}{formula}(formula, data, subset,
+na.action, dist =
+c("Tukey", "Chisquare"), \dots)
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
+%%  \item{x}{
 %%     ~~Describe \code{x} here~~
-   response vector. 
-}
-  \item{g}{
+%%   response vector. 
+%%}
+%%  \item{g}{
 %%     ~~Describe \code{g} here~~
-  grouping vector or factor.
-}
-  \item{method}{
-  the method for determining the p-value. The default distribution is \code{"Tukey"}, else \code{"Chisq"}. 
-}
+%%  grouping vector or factor.
+%}
+  \item{x}{a numeric vector of data values, or a list of numeric data
+    vectors.}
+  \item{g}{a vector or factor object giving the group for the
+    corresponding elements of \code{x}.  Ignored if \code{x} is a
+    list.}
+  \item{formula}{a formula of the form \code{response ~ group} where
+    \code{response} gives the data values and \code{group} a vector or
+    factor of the corresponding groups.} 
+  \item{data}{an optional matrix or data frame (or similar: see
+    \code{\link{model.frame}}) containing the variables in the
+    formula \code{formula}.  By default the variables are taken from
+    \code{environment(formula)}.}
+  \item{subset}{an optional vector specifying a subset of observations
+    to be used.}
+  \item{na.action}{a function which indicates what should happen when
+    the data contain \code{NA}s.  Defaults to
+    \code{getOption("na.action")}.}
+  \item{\dots}{further arguments to be passed to or from methods.}
+  \item{dist}{
+  the method for determining the p-value. The default distribution is \code{"Tukey"}, else \code{"Chisq"}.}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -78,6 +107,8 @@ posthoc.kruskal.nemenyi.test(count, spray)
 posthoc.kruskal.nemenyi.test(count, spray, "Chisq")
 detach(InsectSprays)
 rm(InsectSprays)
+## Formula Interface
+posthoc.kruskal.nemenyi.test(count ~ spray, data = InsectSprays, dist="Tukey")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

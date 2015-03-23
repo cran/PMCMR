@@ -1,4 +1,7 @@
-posthoc.friedman.nemenyi.test <- function(y, groups, blocks){
+posthoc.friedman.nemenyi.test <- function(y, ...) UseMethod("posthoc.friedman.nemenyi.test")
+
+posthoc.friedman.nemenyi.test.default <-
+function(y, groups, blocks, ...){
          if ((is.matrix(y)) | (is.data.frame(y))) {
         groups <- factor(c(col(y)))
         blocks <- factor(c(row(y)))
@@ -41,4 +44,33 @@ posthoc.friedman.nemenyi.test <- function(y, groups, blocks){
                statistic = PSTAT, p.adjust.method = p.adjust.method)
         class(ans) <- "pairwise.htest"
         ans
+}
+
+posthoc.friedman.nemenyi.test.formula <-
+function(formula, data, subset, na.action, ...)
+{
+    if(missing(formula))
+        stop("formula missing")
+    ## <FIXME>
+    ## Maybe put this into an internal rewriteTwoWayFormula() when
+    ## adding support for strata()
+    if((length(formula) != 3L)
+       || (length(formula[[3L]]) != 3L)
+       || (formula[[3L]][[1L]] != as.name("|"))
+       || (length(formula[[3L]][[2L]]) != 1L)
+       || (length(formula[[3L]][[3L]]) != 1L))
+        stop("incorrect specification for 'formula'")
+    formula[[3L]][[1L]] <- as.name("+")
+    ## </FIXME>
+    m <- match.call(expand.dots = FALSE)
+    m$formula <- formula
+    if(is.matrix(eval(m$data, parent.frame())))
+        m$data <- as.data.frame(data)
+    m[[1L]] <- quote(stats::model.frame)
+    mf <- eval(m, parent.frame())
+    DNAME <- paste(names(mf), collapse = " and ")
+    names(mf) <- NULL
+    y <- do.call("posthoc.friedman.nemenyi.test", as.list(mf))
+    y$data.name <- DNAME
+    y
 }

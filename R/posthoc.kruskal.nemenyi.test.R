@@ -1,9 +1,39 @@
-posthoc.kruskal.nemenyi.test <-
-function(x, g, method = c("Tukey","Chisquare")){
-        method <- match.arg(method)
+posthoc.kruskal.nemenyi.test <- function(x, ...) UseMethod("posthoc.kruskal.nemenyi.test")
+
+posthoc.kruskal.nemenyi.test.default <-
+function(x, g, dist = c("Tukey","Chisquare"), ...){
+        ## taken from stats::kruskal.test
+        if (is.list(x)) {
+            if (length(x) < 2L)
+                stop("'x' must be a list with at least 2 elements")
+            DNAME <- deparse(substitute(x))
+            x <- lapply(x, function(u) u <- u[complete.cases(u)])
+            k <- length(x)
+            l <- sapply(x, "length")
+            if (any(l == 0))
+                stop("all groups must contain data")
+            g <- factor(rep(1 : k, l))
+            x <- unlist(x)
+        }
+        else {
+            if (length(x) != length(g))
+                stop("'x' and 'g' must have the same length")
+            DNAME <- paste(deparse(substitute(x)), "and",
+                           deparse(substitute(g)))
+            OK <- complete.cases(x, g)
+            x <- x[OK]
+            g <- g[OK]
+            if (!all(is.finite(g)))
+                stop("all group levels must be finite")
+            g <- factor(g)
+            k <- nlevels(g)
+            if (k < 2)
+                stop("all observations are in the same group")
+        }
+        dist <- match.arg(dist)
         p.adjust.method = "none"
-        DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(g)))
-        g <- factor(g)
+   ##     DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(g)))
+   ##     g <- factor(g)
         x.rank <- rank(x)
         R.bar <- tapply(x.rank, g, mean,na.rm=T)
         R.n <- tapply(!is.na(x), g, length)
@@ -26,7 +56,7 @@ function(x, g, method = c("Tukey","Chisquare")){
         	C <- min(c(1,C))
         	C
         }
-	if(method == "Chisquare") {
+	if(dist == "Chisquare") {
           METHOD <- paste("Nemenyi-test with Chi-squared", "
                        approximation for independent samples", sep="\t")
          compare.stats <- function(i,j) {
@@ -58,4 +88,25 @@ function(x, g, method = c("Tukey","Chisquare")){
                statistic = PSTAT, p.adjust.method = p.adjust.method)
         class(ans) <- "pairwise.htest"
         ans
+}
+
+posthoc.kruskal.nemenyi.test.formula <-
+function(formula, data, subset, na.action, dist = c("Tukey","Chisquare"), ...)
+{
+    mf <- match.call(expand.dots=FALSE)
+    m <- match(c("formula", "data", "subset", "na.action"), names(mf), 0L)
+    mf <- mf[c(1L, m)]
+    dist <- match.arg(dist)
+    mf[[1L]] <- quote(stats::model.frame)
+                 
+   if(missing(formula) || (length(formula) != 3L))
+        stop("'formula' missing or incorrect")
+    mf <- eval(mf, parent.frame())  
+    if(length(mf) > 2L)
+       stop("'formula' should be of the form response ~ group")
+    DNAME <- paste(names(mf), collapse = " by ")
+    names(mf) <- NULL
+    y <- do.call("posthoc.kruskal.nemenyi.test", c(as.list(mf), dist))
+    y$data.name <- DNAME
+    y
 }
