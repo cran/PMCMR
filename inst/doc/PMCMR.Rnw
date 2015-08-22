@@ -83,7 +83,7 @@ In the special case, that several treatments shall only be tested against one co
 
 The function \texttt{kruskal.test} is provided by the package \texttt{stats} \citep{RCoreTeam}. The data-set \texttt{InsectSprays} was derived from a one factorial experimental design and can be used for demonstration purposes. Prior to the test, a visualization of the data (Fig \ref{Fig:boxplot}) might be helpful:
 
-\begin{figure}[t,b,h]
+\begin{figure}[tbh]
 %  \begin{center}
 <<fig=TRUE ,echo=FALSE >>=
 library("graphics")
@@ -122,7 +122,7 @@ print(out$statistic)
 
 The test results can be aligned into a summary table as it is common in scientific articles. However, there is not yet a function included in the package \texttt{PMCMR}. Therefore, Table \ref{tab:summary} was manually created.
 
-\begin{table}[b,h]
+\begin{table}[bh]
 \caption{Mean rank sums of insect counts ($\bar{R}_i$) after the application of insecticides (Group). Different letters indicate significant differences ($p < 0.05$) according to the Tukey-Kramer-Nemenyi post-hoc test. The global test according to Kruskal and Wallis indicated significance ($\chi^{2}(5) = 54.69, p < 0.01$). }\label{tab:summary}
 \begin{tabular}{ccl}
 \hline
@@ -184,7 +184,7 @@ print(y)
 
 Based on a visual inspection (Fig. \ref{fig:urine}), one may assume different responses of Na-concentration in urine as related to the applied diuretics.
 
-\begin{figure}[h,t,b]
+\begin{figure}[htb]
 \begin{center}
 <<fig=TRUE ,echo=FALSE >>=
 library("graphics")

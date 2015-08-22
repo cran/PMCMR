@@ -1,7 +1,7 @@
 # exportPattern("^[[:alpha:]]+")
 
 export(posthoc.kruskal.nemenyi.test, posthoc.friedman.nemenyi.test)
-
+importFrom("stats", "complete.cases", "pairwise.table", "pchisq", "ptukey")
 S3method(posthoc.kruskal.nemenyi.test, default)
 S3method(posthoc.kruskal.nemenyi.test, formula)
 S3method(posthoc.friedman.nemenyi.test, default)
