@@ -20,23 +20,29 @@ kruskal.test(count ~ spray, data=InsectSprays)
 require(PMCMR)
 data(InsectSprays)
 attach(InsectSprays)
-posthoc.kruskal.nemenyi.test(x=count, g=spray, method="Tukey")
+posthoc.kruskal.nemenyi.test(x=count, g=spray, dist="Tukey")
 
 
 ###################################################
-### code chunk number 4: PMCMR.Rnw:113-114
+### code chunk number 4: PMCMR.Rnw:112-113
 ###################################################
-(out <- posthoc.kruskal.nemenyi.test(x=count, g=spray, method="Chisquare"))
+posthoc.kruskal.nemenyi.test(count ~ spray, data=InsectSprays, dist="Tukey")
 
 
 ###################################################
-### code chunk number 5: PMCMR.Rnw:119-120
+### code chunk number 5: PMCMR.Rnw:118-119
+###################################################
+(out <- posthoc.kruskal.nemenyi.test(x=count, g=spray, dist="Chisquare"))
+
+
+###################################################
+### code chunk number 6: PMCMR.Rnw:124-125
 ###################################################
 print(out$statistic)
 
 
 ###################################################
-### code chunk number 6: PMCMR.Rnw:173-182
+### code chunk number 7: PMCMR.Rnw:178-187
 ###################################################
 require(PMCMR)
 y <- matrix(c(
@@ -50,7 +56,7 @@ print(y)
 
 
 ###################################################
-### code chunk number 7: PMCMR.Rnw:189-192
+### code chunk number 8: PMCMR.Rnw:194-197
 ###################################################
 library("graphics")
 groups <- gl(6,6,labels=colnames(y))
@@ -58,13 +64,13 @@ boxplot(as.vector(y) ~ groups)
 
 
 ###################################################
-### code chunk number 8: PMCMR.Rnw:199-200
+### code chunk number 9: PMCMR.Rnw:204-205
 ###################################################
 friedman.test(y)
 
 
 ###################################################
-### code chunk number 9: PMCMR.Rnw:205-206
+### code chunk number 10: PMCMR.Rnw:210-211
 ###################################################
 posthoc.friedman.nemenyi.test(y)
 

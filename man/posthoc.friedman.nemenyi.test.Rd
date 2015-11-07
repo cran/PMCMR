@@ -66,7 +66,7 @@ Object of class "pairwise.htest"
   \item{method }{The applied method.}
   \item{data.name}{The name of the data.}
   \item{p.value}{The p-value according to the studentized range distribution.}
-  \item{statistic}{The estimated upper quantile of the studentized range distribution.}
+  \item{statistic}{The estimated upper quantile of the studentized range distribution (or quantile of Chisq distribution).}
   \item{p.adjust.method}{Defaults to "none"}
 
 

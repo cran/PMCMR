@@ -12,8 +12,8 @@ The Kruskal–Wallis one-way analysis of variance by ranks can be employed, if t
 \tabular{ll}{
 Package: \tab PMCMR \cr
 Type: \tab Package\cr
-Version: \tab 1.2 \cr
-Date: \tab 2015-08-22\cr
+Version: \tab 1.3 \cr
+Date: \tab 2015-11-07\cr
 License: \tab >= GPL-3\cr
 }
 

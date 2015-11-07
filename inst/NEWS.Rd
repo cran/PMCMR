@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{PMCMR News}
 \encoding{UTF-8}
+\section{CHANGES IN PMCMR VERSION 1.3}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item The examples in the LaTeX document (vignette) was corrected.
+      The help pages were extended.
+    }
+  }
+}
 \section{CHANGES IN PMCMR VERSION 1.2}{
   \subsection{NEW FEATURES}{
     \itemize{

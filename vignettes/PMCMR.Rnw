@@ -14,7 +14,7 @@
 
 \title{The Pairwise Multiple Comparison of Mean Ranks Package (PMCMR)}
 \author{Thorsten Pohlert}
-
+\date{latest revision: 2015-11-07}
 \begin{document}
 \bibliographystyle{jss}
 %\bibliographystyle{elsarticle-harv}
@@ -99,19 +99,24 @@ Based on a visual inspection, one can assume that the insecticides \emph{A, B, F
 kruskal.test(count ~ spray, data=InsectSprays)
 @
 
-As the Kruskal-Wallis Test statistics is highly significant ($\chi^{2}(5) = 54.69, p < 0.01$), the null hypothesis is rejected. Thus, it is meaningful to apply post-hoc tests with the function \texttt{posthoc.kruskal.nemenyi.test()}. As the function has no \texttt{formula} enclosed, the response vector and the group vector have to be passed separately to the function.
+As the Kruskal-Wallis Test statistics is highly significant ($\chi^{2}(5) = 54.69, p < 0.01$), the null hypothesis is rejected. Thus, it is meaningful to apply post-hoc tests with the function \texttt{posthoc.kruskal.nemenyi.test()}.
 
 <<>>=
 require(PMCMR)
 data(InsectSprays)
 attach(InsectSprays)
-posthoc.kruskal.nemenyi.test(x=count, g=spray, method="Tukey")
+posthoc.kruskal.nemenyi.test(x=count, g=spray, dist="Tukey")
 @
 
-The test returns the lower triangle of the matrix that contains the p-values of the pairwise comparisons. Thus $|\bar{R}_A - \bar{R}_B|: n.s.$, but $|\bar{R}_A - \bar{R}_C|: p < 0.01$. As there are ties present in the data, one may also conduct the Chi-square approach:
+The test returns the lower triangle of the matrix that contains the p-values of the pairwise comparisons. Thus $|\bar{R}_A - \bar{R}_B|: n.s.$, but $|\bar{R}_A - \bar{R}_C|: p < 0.01$. Since PMCMR-1.1 there is a formula method included. Thus the test can also be conducted in the following way:
+<<>>=
+posthoc.kruskal.nemenyi.test(count ~ spray, data=InsectSprays, dist="Tukey")
+@
+
+As there are ties present in the data, one may also conduct the Chi-square approach:
 
 <<>>=
-(out <- posthoc.kruskal.nemenyi.test(x=count, g=spray, method="Chisquare"))
+(out <- posthoc.kruskal.nemenyi.test(x=count, g=spray, dist="Chisquare"))
 @
 
 which leads to different levels of significance, but to the same test decision.  The arguments of the returned object of class \emph{pairwise.h.test} can be further explored. The statistics, in this case the $\chi^{2}$ estimations, can be taken in this way:
