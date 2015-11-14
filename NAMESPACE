@@ -1,8 +1,12 @@
 # exportPattern("^[[:alpha:]]+")
 
-export(posthoc.kruskal.nemenyi.test, posthoc.friedman.nemenyi.test)
-importFrom("stats", "complete.cases", "pairwise.table", "pchisq", "ptukey")
+export(posthoc.kruskal.nemenyi.test, posthoc.friedman.nemenyi.test,
+       posthoc.kruskal.dunn.test, dunn.test.control)
+importFrom("stats", "complete.cases", "pairwise.table", "pchisq", "ptukey",
+       "pnorm","p.adjust.methods", "p.adjust")
 S3method(posthoc.kruskal.nemenyi.test, default)
 S3method(posthoc.kruskal.nemenyi.test, formula)
+S3method(posthoc.kruskal.dunn.test, default)
+S3method(posthoc.kruskal.dunn.test, formula)
 S3method(posthoc.friedman.nemenyi.test, default)
 S3method(posthoc.friedman.nemenyi.test, formula)

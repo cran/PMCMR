@@ -1,27 +1,26 @@
-\name{posthoc.kruskal.nemenyi.test}
-\alias{posthoc.kruskal.nemenyi.test}
-\alias{posthoc.kruskal.nemenyi.test.default}
-\alias{posthoc.kruskal.nemenyi.test.formula}
+\name{posthoc.kruskal.dunn.test}
+\alias{posthoc.kruskal.dunn.test}
+\alias{posthoc.kruskal.dunn.test.default}
+\alias{posthoc.kruskal.dunn.test.formula}
 
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
-Pairwise Test for Multiple Comparisons of Mean Rank Sums (Nemenyi-Tests)
+Pairwise Test for Multiple Comparisons of Mean Rank Sums (Dunn's-Test)
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-Calculate pairwise multiple comparisons between group levels. These tests are sometimes referred to as Nemenyi-tests for multiple comparisons of (mean) rank sums of independent samples.
+Calculate pairwise multiple comparisons between group levels according to Dunn.
 }
 \usage{
-posthoc.kruskal.nemenyi.test(x, \dots)
+posthoc.kruskal.dunn.test(x, \dots)
 
-\method{posthoc.kruskal.nemenyi.test}{default}( x, g, dist =
-c("Tukey", "Chisquare"), \dots)
+\method{posthoc.kruskal.dunn.test}{default}( x, g, p.adjust.method =
+p.adjust.methods, \dots)
 
-\method{posthoc.kruskal.nemenyi.test}{formula}(formula, data, subset,
-na.action, dist =
-c("Tukey", "Chisquare"), \dots)
+\method{posthoc.kruskal.dunn.test}{formula}(formula, data, subset,
+na.action, p.adjust.method = p.adjust.methods, \dots)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -51,13 +50,12 @@ c("Tukey", "Chisquare"), \dots)
   \item{na.action}{a function which indicates what should happen when
     the data contain \code{NA}s.  Defaults to
     \code{getOption("na.action")}.}
+  \item{p.adjust.method}{Method for adjusting p values (see \code{\link{p.adjust}}).}
   \item{\dots}{further arguments to be passed to or from methods.}
-  \item{dist}{
-  the method for determining the p-value. The default distribution is \code{"Tukey"}, else \code{"Chisq"}.}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
-For one-factorial designs with samples that do not meet the assumptions for one-way-ANOVA and subsequent post-hoc tests, the Kruskal-Wallis-Test  \code{\link{kruskal.test}} can be employed that is also referred to as the Kruskal–Wallis one-way analysis of variance by ranks. Provided that significant differences were detected by this global test, one may be interested in applying post-hoc tests according to Nemenyi for pairwise multiple comparisons of the ranked data.
+For one-factorial designs with samples that do not meet the assumptions for one-way-ANOVA and subsequent post-hoc tests, the Kruskal-Wallis-Test  \code{\link{kruskal.test}} can be employed that is also referred to as the Kruskal–Wallis one-way analysis of variance by ranks. Provided that significant differences were detected by this global test, one may be interested in applying post-hoc tests according to Dunn for pairwise multiple comparisons of the ranked data.
 
 See the vignette for details.
 }
@@ -68,17 +66,17 @@ Object of class \code{"pairwise.htest"}
 %%  If it is a LIST, use
   \item{method }{The applied method.}
   \item{data.name}{The name of the data.}
-  \item{p.value}{The p-value according to the studentized range distribution.}
-  \item{statistic}{The estimated upper quantile of the studentized range distribution. (or quantile of Chisq distribution)}
-  \item{p.adjust.method}{Defaults to "none"}
-
-
+  \item{p.value}{The p-value of the standard normal distribution.}
+  \item{statistic}{The estimated quantile of the standard normal distribution.}
+  \item{p.adjust.method}{The applied method for p-value adjustment.}
 %% ...
 }
 \references{
 %% ~put references to the literature/web site here ~
 
-Lothar Sachs (1997), \emph{Angewandte Statistik}. Berlin: Springer. Pages: 395-397, 662-664.
+O.J. Dunn (1964). Multiple comparisons using rank sums. \emph{Technometrics}, 6, 241-252. 
+
+S. A. Glantz (2012), \emph{Primer of Biostatistics}. New York: McGraw Hill.
 }
 \author{
 %%  ~~who you are~~
@@ -86,7 +84,7 @@ Thorsten Pohlert
 }
 \note{
 %%  ~~further notes~~
- Only for \emph{method = "Chisq"} a tie correction is employed.
+ A tie correction will be employed according to Glantz (2012).
 }
 
 \seealso{
@@ -94,8 +92,8 @@ Thorsten Pohlert
 \code{\link{kruskal.test}},
 \code{\link{friedman.test}},
 \code{\link{posthoc.friedman.nemenyi.test}},
-\code{\link{Tukey}},
-\code{\link{Chisquare}} 
+\code{\link{pnorm}},
+\code{\link{p.adjust}}
 }
 \examples{
 ##
@@ -103,12 +101,11 @@ require(stats)
 data(InsectSprays)
 attach(InsectSprays)
 kruskal.test(count, spray)
-posthoc.kruskal.nemenyi.test(count, spray)
-posthoc.kruskal.nemenyi.test(count, spray, "Chisq")
+posthoc.kruskal.dunn.test(count, spray, "bonferroni")
 detach(InsectSprays)
 rm(InsectSprays)
 ## Formula Interface
-posthoc.kruskal.nemenyi.test(count ~ spray, data = InsectSprays, dist="Tukey")
+posthoc.kruskal.dunn.test(count ~ spray, data = InsectSprays, p.adjust="bonf")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

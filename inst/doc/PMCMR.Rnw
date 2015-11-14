@@ -2,8 +2,7 @@
 %\VignetteDepends{PMCMR}
 %\VignetteKeywords{Nemenyi test}
 %\VignettePackage{PMCMR}
-%\documentclass[a4paper]{amsart}
-%\documentclass[a4paper]{article}
+
 \documentclass[a4paper]{scrartcl}
 \usepackage{Sweave}
 \usepackage[utf8]{inputenc}
@@ -14,14 +13,17 @@
 
 \title{The Pairwise Multiple Comparison of Mean Ranks Package (PMCMR)}
 \author{Thorsten Pohlert}
-\date{latest revision: 2015-11-07}
+\date{latest revision: 2015-11-12}
 \begin{document}
 \bibliographystyle{jss}
-%\bibliographystyle{elsarticle-harv}
 
 \maketitle
 \begin{small}
-{\copyright} Thorsten Pohlert. This work is licensed under a Creative Commons License (CC BY-ND 4.0). See \url{http://creativecommons.org/licenses/by-nd/4.0/} for details. Please cite this package as: T. Pohlert (2014). \textit{The Pairwise Multiple Comparison of Mean Ranks Package (PMCMR).} R package. See also \texttt{citation("PMCMR")}.
+{\copyright} Thorsten Pohlert. This work is licensed under a Creative Commons License (CC BY-ND 4.0). See \url{http://creativecommons.org/licenses/by-nd/4.0/} for details. Please cite this package as: \\
+
+T. Pohlert (2014). \textit{The Pairwise Multiple Comparison of Mean Ranks Package (PMCMR).} R package. \url{http://CRAN.R-project.org/package=PMCMR}. \\
+
+See also \texttt{citation("PMCMR")}.
 \end{small}
 
 
@@ -68,7 +70,7 @@ Provided, that the globally conducted Kruskal-Wallis test indicates significance
   \left[\frac{1}{n_i} + \frac{1}{n_j}\right]},
 \end{equation}
 
-where $q_{\infty;k;\alpha}$ denotes the upper quantile of the studentized range distribution. Although these quantiles can not be computed analytically, as $df = \infty$, a good approximation is to set $df$ very large: such as $q_{1000000;k;\alpha} \sim q_{\infty;k;\alpha}$. This inequality (\ref{eq:tk}) leads to the same critical differences of rank sums ($\left| R_i - R_j \right|$) when multiplied with $n$ for $\alpha = [0.1, 0.5, 0.01]$, as reported in the tables of \citep[pp. 29--31]{Wilcoxon_Wilcox_1964}. In the presence of ties the approach presented by \citep[p. 395]{Sachs_1997} can be employed, as given by inequality \ref{eq:chisq}:
+where $q_{\infty;k;\alpha}$ denotes the upper quantile of the studentized range distribution. Although these quantiles can not be computed analytically, as $df = \infty$, a good approximation is to set $df$ very large: such as $q_{1000000;k;\alpha} \sim q_{\infty;k;\alpha}$. This inequality (\ref{eq:tk}) leads to the same critical differences of rank sums ($\left| R_i - R_j \right|$) when multiplied with $n$ for $\alpha = [0.1, 0.5, 0.01]$, as reported in the tables of \citet[pp. 29--31]{Wilcoxon_Wilcox_1964}. In the presence of ties the approach presented by \citep[p. 395]{Sachs_1997} can be employed (\ref{eq:chisq}), provided that $(n_i, n_j, \ldots, n_k \geq 6$) and $k \geq 4$.:
 
 \begin{equation}\label{eq:chisq}
 \left| \bar{R}_i - \bar{R}_j \right| > \sqrt{C   \chi^{2}_{k-1;\alpha}   \left[\frac{n \left( n + 1 \right)}{12} \right] 
@@ -77,7 +79,7 @@ where $q_{\infty;k;\alpha}$ denotes the upper quantile of the studentized range 
 
 where $C$ is given by Eq. \ref{eq:tie}. The function \texttt{posthoc.kruskal.nemenyi.test()} does not evaluate the critical differences as given by Eqs. \ref{eq:tk} and \ref{eq:chisq}, but calculates the corresponding level of significance for the estimated statistics $q$ and $\chi^{2}$, respectively.
 
-In the special case, that several treatments shall only be tested against one control experiment, the number of tests reduces to $m = k - 1$. This case is not implemented in the package \texttt{PMCMR}, but can e.g. be employed with a Bonferroni-type adjustment of $\alpha$.
+In the special case, that several treatments shall only be tested against one control experiment, the number of tests reduces to $m = k - 1$. This case is given in section \ref{control}.
 
 \subsection{Examples using  \texttt{posthoc.kruskal.nemenyi.test()}}
 
@@ -143,6 +145,77 @@ F & 55.62 & b \\
 \end{tabular}
 \end{table}
 
+\subsection{Kruskal-Wallis -- post-hoc test after Dunn}
+\label{Dunn}
+\citet{Dunn_1964} has proposed a test for multiple comparisons of rank sums based on the z-statistics of the standard normal distribution. The null hypothesis ($H0$), the probability of observing a randomly selected value from the first group that is larger than a randomly selected value from the second group equals one half, is rejected, if a critical absolute difference of mean rank sums is exceeded:
+
+\begin{equation}\label{eq:dunn}
+\left| \bar{R}_i - \bar{R}_j \right| > z_{\alpha*} ~ {\sqrt{ \left[\frac{n \left( n + 1 \right)}{12} - B \right] 
+  \left[\frac{1}{n_i} + \frac{1}{n_j}\right]}},
+\end{equation}
+
+with $z_{\alpha*}$ the value of the standard normal distribution for a given adjusted $\alpha*$ level depending on the number of tests conducted and $B$ the correction term for ties, which was taken from \citet{Glantz_2012} and is given by Eq. \ref{eq:B}:
+
+\begin{equation}\label{eq:B}
+  B = \frac{\sum_{i=1}^{i=r} \left(t_i^3 - t_i\right)}{12 \left(n - 1 \right)}
+\end{equation}
+
+The function \texttt{posthoc.kruskal.dunn.test()} does not evaluate the critical differences as given by Eqs. \ref{eq:dunn}, but calculates the corresponding level of significance for the estimated statistics $z$, as adjusted by any method implemented in \texttt{p.adjust} to account for Type I error inflation.
+
+\subsection{Example using  \texttt{posthoc.kruskal.dunn.test()}}
+
+We can go back to the example with InsectSprays.
+
+<<>>=
+require(PMCMR)
+data(InsectSprays)
+attach(InsectSprays)
+posthoc.kruskal.dunn.test(x=count, g=spray, p.adjust.method="none")
+@
+
+The test returns the lower triangle of the matrix that contains the p-values of the pairwise comparisons. Here, the p-values are not corrected, thus there is a Type I error inflation that leads to a wrong postive discovery rate. This can be solved by applying e.g. a Bonferroni-type adjustment of p-values.
+
+<<>>=
+require(PMCMR)
+data(InsectSprays)
+attach(InsectSprays)
+posthoc.kruskal.dunn.test(x=count, g=spray, p.adjust.method="bonferroni")
+@
+
+
+%Thus $|\bar{R}_A - \bar{R}_B|: n.s.$, but $|\bar{R}_A - \bar{R}_C|: p < 0.01$. Dunn's test is more liberal than the test using Inequality \ref{eq:tk}. Inequality \ref{eq:chisq} is the most conservative of each of the three proposed tests.
+
+\subsection{Dunn's multiple comparison test with one control}
+\label{control}
+Dunn's test (see section \ref{Dunn}), can also be applied for multiple comparisons with one control \citep{Siegel_Castellan_1988}: 
+
+\begin{equation}\label{eq:dunnc}
+\left| \bar{R}_0 - \bar{R}_j \right| > z_{\alpha*} ~ {\sqrt{ \left[\frac{n \left( n + 1 \right)}{12} - B \right] 
+  \left[\frac{1}{n_0} + \frac{1}{n_j}\right]}},
+\end{equation}
+
+where $\bar{R}_0$ denotes the mean rank sum of the control experiment. In this case the number of tests is reduced to $m = k - 1$, which changes the p-adjustment according to Bonferroni (or others). The function \texttt{dunn.test.control} employs this test, buth \textbf{the user need to be sure that the control is given as the first level in the group vector}.
+
+\subsection{Example using \texttt{dunn.test.control}}
+We can use the \texttt{PlantGrowth} dataset, that comprises data with dry matter weight of yields of one control experiment (i.e. no treatment) and to different treatments. In this case we are only interested, whether the treatments differ significantly from the control experiment.
+
+<<>>=
+require(stats) 
+data(PlantGrowth)
+attach(PlantGrowth)
+kruskal.test(weight, group)
+dunn.test.control(weight,group, "bonferroni")
+@ 
+
+According to the global Kruskal-Wallis test, there are significant differences between the groups, $\chi^2(2) = 7.99, p < 0.05$. The Dunn-test with Bonferroni adjustment of p-values shows, that only \texttt{trt2} differs from the control (\texttt{ctrl}) with $p_{\mathrm{Bonf}} < 0.1$.
+
+If one may cross-check the findings with ANOVA and multiple comparison with one control using the LSD-test, he/she can do the following:
+<<>>=
+summary.lm(aov(weight ~ group))
+@ 
+
+The last line provides the statistics for the global test, i.e. there is a significant treatment effect according to one-way ANOVA, $F(2,27) = 4.85, p < 0.05, \eta^2 = 0.264$. The row that starts with \texttt{Intercept} gives the group mean of the control, its standard error, the t-value for testing $H0: \mu = 0$ and the corresponding level of significance. The following lines provide the difference between the averages of the treatment groups with the control, where $H0: \mu_0 - \mu_j = 0$. Thus the \texttt{trt1} does not differ significantly from the \texttt{ctr}, $t = -1.331, p = 0.194$. There is a significant difference between \texttt{trt2} and \texttt{ctr} as indicated by $t = 1.772, p < 0.1$. Consequently, the test decision of this example is the same, as if \texttt{dunn.test.control} is used with Bonferroni adjustment of p-values.  
+
 \section{Comparison of multiple joint samples (Two-factorial unreplicated complete block design)}
 
 \subsection{Friedman test}
@@ -162,7 +235,7 @@ The Friedman statistic is approximately $\chi^{2}$-distributed and the null hypo
 
 \subsection{Friedman -- post-hoc test after Nemenyi}
 
-Provided that the Friedman test indicates significance, the post-hoc test according to Nemenyi can be employed \citep[p. 668]{Sachs_1997}. This test requires equal sample sizes $\left(n_1 = n_2 = \ldots = n_k = n \right)$ for each group $k$ and a Friedman-type ranking of the data. The inequality \ref{eq:demsar} was taken from \citet[p. 11]{Demsar_2006}, where the critical difference refer to mean rank sums ($\left| \bar{R}_i - \bar{R}_j \right|$):
+Provided that the Friedman test indicates significance, the post-hoc test according to \citet{Nemenyi_1963} can be employed \citep[p. 668]{Sachs_1997}. This test requires equal sample sizes $\left(n_1 = n_2 = \ldots = n_k = n \right)$ for each group $k$ and a Friedman-type ranking of the data. The inequality \ref{eq:demsar} was taken from \citet[p. 11]{Demsar_2006}, where the critical difference refer to mean rank sums ($\left| \bar{R}_i - \bar{R}_j \right|$):
 
 
 \begin{equation}\label{eq:demsar}

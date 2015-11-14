@@ -1,8 +1,9 @@
-posthoc.kruskal.nemenyi.test <- function(x, ...) UseMethod("posthoc.kruskal.nemenyi.test")
+posthoc.kruskal.dunn.test <- function(x, ...) UseMethod("posthoc.kruskal.dunn.test")
 
-posthoc.kruskal.nemenyi.test.default <-
-function(x, g, dist = c("Tukey","Chisquare"), ...){
+posthoc.kruskal.dunn.test.default <-
+function(x, g, p.adjust.method = p.adjust.methods, ...){
         ## taken from stats::kruskal.test
+        
         if (is.list(x)) {
             if (length(x) < 2L)
                 stop("'x' must be a list with at least 2 elements")
@@ -15,7 +16,7 @@ function(x, g, dist = c("Tukey","Chisquare"), ...){
             g <- factor(rep(1 : k, l))
             x <- unlist(x)
         }
-        else {
+         else {
             if (length(x) != length(g))
                 stop("'x' and 'g' must have the same length")
             DNAME <- paste(deparse(substitute(x)), "and",
@@ -30,10 +31,8 @@ function(x, g, dist = c("Tukey","Chisquare"), ...){
             if (k < 2)
                 stop("all observations are in the same group")
         }
-        dist <- match.arg(dist)
-        p.adjust.method = "none"
-   ##     DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(g)))
-   ##     g <- factor(g)
+        p.adjust.method <- match.arg(p.adjust.method)
+#        p.adjust.method = "none"
         x.rank <- rank(x)
         R.bar <- tapply(x.rank, g, mean,na.rm=T)
         R.n <- tapply(!is.na(x), g, length)
@@ -52,51 +51,44 @@ function(x, g, dist = c("Tukey","Chisquare"), ...){
 			     tiesum <- tiesum + nt^3  - nt
 			 }	     
                 }
-		C <- 1 - tiesum / (n^3 - n)
-        	C <- min(c(1,C))
-        	C
+		C <- tiesum / (12 * (n - 1))
+        	return(C)
         }
-	if(dist == "Chisquare") {
-          METHOD <- paste("Nemenyi-test with Chi-squared", "
-                       approximation for independent samples", sep="\t")
-         compare.stats <- function(i,j) {
+        METHOD <- paste("Dunn's-test for multiple","
+                         comparisons of independent samples", sep="\t")
+        C <- getties(x.rank, n)
+        if (C != 0) warning("Ties are present. z-quantiles were corrected for ties.")           
+        compare.stats <- function(i,j) {
             dif <- abs(R.bar[i] - R.bar[j]) 
             A <- n * (n+1) / 12
             B <- (1 / R.n[i] + 1 / R.n[j])
-            chisqval <- dif^2 / (A * B)
-            return(chisqval)
+            zval <- dif / sqrt((A - C) * B)
+            return(zval)
         }
         PSTAT <- pairwise.table(compare.stats,levels(g), p.adjust.method="none" )
-
-        C <- getties(x.rank, n)
-        if (C != 1) warning("Ties are present. Chi-sq was corrected for ties.")
-        PVAL <- 1 - pchisq((C * PSTAT), df=(k-1))
-        } else {
-                 METHOD <- paste("Tukey and Kramer (Nemenyi) test", "
-                   with Tukey-Dist approximation for independent samples", sep="\t")
-         compare.stats <- function(i,j) {
-            dif <- abs(R.bar[i] - R.bar[j])
-            qval <- dif / sqrt((n * (n + 1) / 12) * (1/R.n[i] + 1/R.n[j] ))
-            return(qval)
+        compare.levels <- function(i,j) {
+            dif <- abs(R.bar[i] - R.bar[j]) 
+            A <- n * (n+1) / 12
+            B <- (1 / R.n[i] + 1 / R.n[j])
+            zval <- dif / sqrt((A - C) * B)
+            pval <- pnorm(abs(zval), lower.tail = FALSE)
+            return(pval)
         }
-        PSTAT <- pairwise.table(compare.stats,levels(g), p.adjust.method="none" )*sqrt(2)
-        C <- getties(x.rank, n)
-        if (C != 1) warning("Ties are present, p-values are not corrected.")
-        PVAL <- 1 - ptukey(PSTAT, nmeans=k, df=1000000)
-             }
+        PVAL <- pairwise.table(compare.levels,levels(g), p.adjust.method=p.adjust.method )
+ #       PVAL <- pnorm(abs(PSTAT), lower.tail = FALSE)
+        
         ans <- list(method = METHOD, data.name = DNAME, p.value = PVAL,
-               statistic = PSTAT, p.adjust.method = p.adjust.method)
+                    statistic = PSTAT, p.adjust.method = p.adjust.method)
         class(ans) <- "pairwise.htest"
         ans
 }
 
-posthoc.kruskal.nemenyi.test.formula <-
-function(formula, data, subset, na.action, dist = c("Tukey","Chisquare"), ...)
+posthoc.kruskal.dunn.test.formula <-
+function(formula, data, subset, na.action,  p.adjust.method = p.adjust.methods, ...)
 {
     mf <- match.call(expand.dots=FALSE)
     m <- match(c("formula", "data", "subset", "na.action"), names(mf), 0L)
     mf <- mf[c(1L, m)]
-    dist <- match.arg(dist)
     mf[[1L]] <- quote(stats::model.frame)
                  
    if(missing(formula) || (length(formula) != 3L))
@@ -105,8 +97,9 @@ function(formula, data, subset, na.action, dist = c("Tukey","Chisquare"), ...)
     if(length(mf) > 2L)
        stop("'formula' should be of the form response ~ group")
     DNAME <- paste(names(mf), collapse = " by ")
+    p.adjust.method <- match.arg(p.adjust.method)
     names(mf) <- NULL
-    y <- do.call("posthoc.kruskal.nemenyi.test", c(as.list(mf), dist))
+    y <- do.call("posthoc.kruskal.dunn.test", c(as.list(mf), p.adjust.method))
     y$data.name <- DNAME
     y
 }

@@ -66,7 +66,7 @@ Object of class "pairwise.htest"
   \item{method }{The applied method.}
   \item{data.name}{The name of the data.}
   \item{p.value}{The p-value according to the studentized range distribution.}
-  \item{statistic}{The estimated upper quantile of the studentized range distribution (or quantile of Chisq distribution).}
+  \item{statistic}{The estimated upper quantile of the studentized range distribution.}
   \item{p.adjust.method}{Defaults to "none"}
 
 
@@ -75,6 +75,8 @@ Object of class "pairwise.htest"
 \references{
 %% ~put references to the literature/web site here ~
 Janez Demsar (2006), Statistical comparisons of classifiers over multiple data sets, \emph{Journal of Machine Learning Research}, 7, 1-30. 
+
+P. Nemenyi (1963) \emph{Distribution-free Multiple Comparisons}. Ph.D. thesis, Princeton University.
 
 Lothar Sachs (1997), \emph{Angewandte Statistik}. Berlin: Springer. Pages: 668-675. 
 }

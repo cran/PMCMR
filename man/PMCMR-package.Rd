@@ -12,8 +12,8 @@ The Kruskal–Wallis one-way analysis of variance by ranks can be employed, if t
 \tabular{ll}{
 Package: \tab PMCMR \cr
 Type: \tab Package\cr
-Version: \tab 1.3 \cr
-Date: \tab 2015-11-07\cr
+Version: \tab 2.0 \cr
+Date: \tab 2015-11-12\cr
 License: \tab >= GPL-3\cr
 }
 
@@ -26,17 +26,27 @@ Thorsten Pohlert
 Maintainer: <thorsten.pohlert@gmx.de>
 }
 \references{
-Janez Demsar (2006), Statistical comparisons of classifiers over multiple data sets, \emph{Journal of Machine Learning Research}, 7, 1-30. 
+Janez Demsar (2006), Statistical comparisons of classifiers over multiple data sets, \emph{Journal of Machine Learning Research}, 7, 1-30.
 
-Lothar Sachs (1997), \emph{Angewandte Statistik}. Berlin: Springer. Pages: 668-675. 
+O.J. Dunn (1964). Multiple comparisons using rank sums. \emph{Technometrics}, 6, 241-252. 
+
+S. A. Glantz (2012), \emph{Primer of Biostatistics}, 7th edition. New York: McGraw Hill.
+
+P. Nemenyi (1963) \emph{Distribution-free Multiple Comparisons}. Ph.D. thesis, Princeton University.
+
+Lothar Sachs (1997), \emph{Angewandte Statistik}. Berlin: Springer. Pages: 668-675.
 }
 \keyword{ htest }
 \seealso{
-  \code{\link{posthoc.kruskal.nemenyi.test}},
-  \code{\link{posthoc.friedman.nemenyi.test}},
+\code{\link{posthoc.kruskal.nemenyi.test}},
+\code{\link{posthoc.kruskal.dunn.test}},
+\code{\link{posthoc.friedman.nemenyi.test}},
+\code{\link{dunn.test.control}},
 \code{\link{kruskal.test}},
 \code{\link{friedman.test}},
 \code{\link{Tukey}},
-\code{\link{Chisquare}}
+\code{\link{Chisquare}},
+\code{\link{Normal}},
+\code{\link{p.adjust}}
 }
 
