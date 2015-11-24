@@ -1,3 +1,22 @@
+# posthoc.kruskal.dunn.test.R
+# Part of the R package: PMCMR
+#
+# Copyright (C) 2015 Thorsten Pohlert
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  A copy of the GNU General Public License is available at
+#  http://www.r-project.org/Licenses/
+
+
 posthoc.kruskal.dunn.test <- function(x, ...) UseMethod("posthoc.kruskal.dunn.test")
 
 posthoc.kruskal.dunn.test.default <-
@@ -71,12 +90,11 @@ function(x, g, p.adjust.method = p.adjust.methods, ...){
             A <- n * (n+1) / 12
             B <- (1 / R.n[i] + 1 / R.n[j])
             zval <- dif / sqrt((A - C) * B)
-            pval <- pnorm(abs(zval), lower.tail = FALSE)
+            pval <- 2 * pnorm(abs(zval), lower.tail = FALSE)
             return(pval)
         }
         PVAL <- pairwise.table(compare.levels,levels(g), p.adjust.method=p.adjust.method )
- #       PVAL <- pnorm(abs(PSTAT), lower.tail = FALSE)
-        
+
         ans <- list(method = METHOD, data.name = DNAME, p.value = PVAL,
                     statistic = PSTAT, p.adjust.method = p.adjust.method)
         class(ans) <- "pairwise.htest"
@@ -84,7 +102,7 @@ function(x, g, p.adjust.method = p.adjust.methods, ...){
 }
 
 posthoc.kruskal.dunn.test.formula <-
-function(formula, data, subset, na.action,  p.adjust.method = p.adjust.methods, ...)
+function(formula, data, subset, na.action, p.adjust.method = p.adjust.methods, ...)
 {
     mf <- match.call(expand.dots=FALSE)
     m <- match(c("formula", "data", "subset", "na.action"), names(mf), 0L)

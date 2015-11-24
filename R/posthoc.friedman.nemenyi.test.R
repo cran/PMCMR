@@ -1,3 +1,22 @@
+# posthoc.friedman.nemenyi.test.R
+# Part of the R package: PMCMR
+#
+# Copyright (C) 2014, 2015 Thorsten Pohlert
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  A copy of the GNU General Public License is available at
+#  http://www.r-project.org/Licenses/
+
+
 posthoc.friedman.nemenyi.test <- function(y, ...) UseMethod("posthoc.friedman.nemenyi.test")
 
 posthoc.friedman.nemenyi.test.default <-
@@ -28,7 +47,8 @@ function(y, groups, blocks, ...){
     	 for (i in 1:length(mat[, 1])) mat[i, ] <- rank(mat[i, ])
         R.mnsum <- colMeans(mat)
         p.adjust.method = "none"
-       METHOD <- "Nemenyi post-hoc test with q approximation for unreplicated blocked data"
+        METHOD <- paste("Nemenyi multiple comparison test","
+             with q approximation for unreplicated blocked data", sep="\t")
          compare.stats <- function(i,j) {
             dif <- abs(R.mnsum[i] - R.mnsum[j])
             qval <- dif / sqrt(k * (k + 1) / (6 * n))

@@ -1,6 +1,33 @@
 \name{NEWS}
 \title{PMCMR News}
 \encoding{UTF-8}
+\section{CHANGES IN PMCMR VERSION 3.0}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item The van der Waerden normal scores test, \code{vanWaerden.test}, 
+      as an omnibus test for testing k independent samples for
+      homogeneity was added to the package.
+      
+      \item The post-hoc test of van der Waerden,
+      \code{posthoc.vanWaerden.test}, 
+      for multiple comparisons following a significant omnibus test was
+      added to the package.
+      
+      \item The Conover-test, \code{posthoc.friedman.conover.test}, 
+      for multiple comparisons following a Friedman test was added to the package.
+      \item The Conover-test, \code{posthoc.kruskal.conover.test}, 
+      for multiple comparisons following a Kruskal test was added to the package.
+      \item The NAMSPACE file, VIGNETTE and the .Rd files were updated accordingly.
+    }
+  }
+  \subsection{BUGFIXES}{
+    \itemize{
+      \item \code{posthoc.kruskal.dunn.test} and
+      \code{dunn.test.control} were corrected to calculate p-values for
+      a two-sided test.
+    }
+  }
+}
 \section{CHANGES IN PMCMR VERSION 2.0}{
   \subsection{NEW FEATURES}{
     \itemize{
@@ -15,7 +42,7 @@
 \section{CHANGES IN PMCMR VERSION 1.3}{
   \subsection{BUGFIXES}{
     \itemize{
-      \item The examples in the LaTeX document (vignette) was corrected.
+      \item The examples in the LaTeX document (vignette) were corrected.
       The help pages were extended.
     }
   }

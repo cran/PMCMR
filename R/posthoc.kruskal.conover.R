@@ -1,4 +1,4 @@
-# dunn.test.control.R
+# posthoc.kruskal.conover.test.R
 # Part of the R package: PMCMR
 #
 # Copyright (C) 2015 Thorsten Pohlert
@@ -16,9 +16,12 @@
 #  A copy of the GNU General Public License is available at
 #  http://www.r-project.org/Licenses/
 
-dunn.test.control <-
+posthoc.kruskal.conover.test <- function(x, ...) UseMethod("posthoc.kruskal.conover.test")
+
+posthoc.kruskal.conover.test.default <-
 function(x, g, p.adjust.method = p.adjust.methods, ...){
-        ## taken from stats::kruskal.test        
+        ## taken from stats::kruskal.test
+        
         if (is.list(x)) {
             if (length(x) < 2L)
                 stop("'x' must be a list with at least 2 elements")
@@ -65,37 +68,69 @@ function(x, g, p.adjust.method = p.adjust.methods, ...){
 			     tiesum <- tiesum + nt^3  - nt
 			 }	     
                 }
-		C <- tiesum / (12 * (n - 1))
+           	C <- 1 - tiesum / (n^3 - n)
+        	C <- min(c(1,C))
         	return(C)
         }
-        METHOD <- paste("Dunn's-test for multiple","
-                         comparisons with one control", sep="\t")
+        METHOD <- paste("Conover's-test for multiple","
+                         comparisons of independent samples", sep="\t")
         C <- getties(x.rank, n)
-        if (C != 0) warning("Ties are present. z-quantiles were corrected for ties.")           
-        # mean Rsum of controll is in R.bar[1]
-        compare.stats <- function(j) {
-            dif <- abs(R.bar[1] - R.bar[j]) 
-            A <- n * (n+1) / 12
-            B <- (1 / R.n[1] + 1 / R.n[j])
-            zval <- dif / sqrt((A - C) * B)
-            return(zval)
+        if (C != 1) warning("Ties are present. Quantiles were corrected for ties.")
+        # Kruskal-Wallis statistic
+        H <- (12 / (n * (n + 1))) * sum(tapply(x.rank, g, "sum")^2 / R.n) - 3 * (n + 1)
+        H.cor <- H / C
+
+        if (C == 1) {
+            S2 <- n * (n + 1) / 12
+        } else {
+            S2 <-   ( 1 / (n - 1)) * (sum(x.rank^2) - (n * (((n + 1)^2) / 4)))
         }
-        PSTATv <- rep(NA, k-1)
-        for (j in 2:k) {PSTATv[j-1] <- compare.stats(j)}
-        # unadjusted p-values
-        PVALv <- 2 * pnorm(abs(PSTATv), lower.tail = FALSE)
-        # adjusted p-values
-        PADJv <- p.adjust(PVALv, method = p.adjust.method)
-
-        LNAME <- levels(g)[2:k]
-
-        # build matrix
-        PSTAT <- matrix(data=PSTATv, nrow = (k-1), ncol = 1,
-                        dimnames = list(LNAME, levels(g)[1]))
-        PVAL <- matrix(data=PADJv, nrow = (k-1), ncol = 1,
-                        dimnames = list(LNAME, levels(g)[1]))
+        compare.stats <- function(i,j) {
+            dif <- abs(R.bar[i] - R.bar[j]) 
+            B <- (1 / R.n[i] + 1 / R.n[j])
+            D <- (n - 1 - H.cor) / (n - k)
+            tval <- dif / sqrt(S2 * B * D)
+            return(tval)
+        }
+        PSTAT <- pairwise.table(compare.stats,levels(g),
+                                p.adjust.method="none" )
+        compare.levels <- function(i,j) {
+            dif <- abs(R.bar[i] - R.bar[j]) 
+            B <- (1 / R.n[i] + 1 / R.n[j])
+            D <- (n - 1 - H.cor) / (n - k)
+            tval <- dif / sqrt(S2 * B * D)
+#            pval <- pt(abs(tval), df=n - k, lower.tail = FALSE)
+            pval <- 2 * pt(abs(tval), df=n - k, lower.tail=FALSE)
+            return(pval)
+        }
+        PVAL <- pairwise.table(compare.levels,levels(g),
+                               p.adjust.method=p.adjust.method )
+        
         ans <- list(method = METHOD, data.name = DNAME, p.value = PVAL,
                     statistic = PSTAT, p.adjust.method = p.adjust.method)
         class(ans) <- "pairwise.htest"
         ans
+}
+
+posthoc.kruskal.conover.test.formula <-
+function(formula, data, subset, na.action,
+         p.adjust.method = p.adjust.methods, ...)
+{
+    mf <- match.call(expand.dots=FALSE)
+    m <- match(c("formula", "data", "subset", "na.action"), names(mf), 0L)
+    mf <- mf[c(1L, m)]
+    mf[[1L]] <- quote(stats::model.frame)
+                 
+   if(missing(formula) || (length(formula) != 3L))
+        stop("'formula' missing or incorrect")
+    mf <- eval(mf, parent.frame())  
+    if(length(mf) > 2L)
+       stop("'formula' should be of the form response ~ group")
+    DNAME <- paste(names(mf), collapse = " by ")
+    p.adjust.method <- match.arg(p.adjust.method)
+    names(mf) <- NULL
+    y <- do.call("posthoc.kruskal.conover.test", c(as.list(mf),
+                                                   p.adjust.method))
+    y$data.name <- DNAME
+    y
 }

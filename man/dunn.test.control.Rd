@@ -43,7 +43,7 @@ Object of class \code{"pairwise.htest"}
 %%  If it is a LIST, use
   \item{method }{The applied method.}
   \item{data.name}{The name of the data.}
-  \item{p.value}{The p-value of the standard normal distribution.}
+  \item{p.value}{The two-sided p-value of the standard normal distribution.}
   \item{statistic}{The estimated quantile of the standard normal distribution.}
   \item{p.adjust.method}{The applied method for p-value adjustment.}
 %% ...

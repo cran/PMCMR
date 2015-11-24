@@ -1,3 +1,21 @@
+# posthoc.kruskal.nemenyi.test.R
+# Part of the R package: PMCMR
+#
+# Copyright (C) 2014, 2015 Thorsten Pohlert
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  A copy of the GNU General Public License is available at
+#  http://www.r-project.org/Licenses/
+
 posthoc.kruskal.nemenyi.test <- function(x, ...) UseMethod("posthoc.kruskal.nemenyi.test")
 
 posthoc.kruskal.nemenyi.test.default <-
@@ -70,7 +88,7 @@ function(x, g, dist = c("Tukey","Chisquare"), ...){
 
         C <- getties(x.rank, n)
         if (C != 1) warning("Ties are present. Chi-sq was corrected for ties.")
-        PVAL <- 1 - pchisq((C * PSTAT), df=(k-1))
+        PVAL <- 1 - pchisq((PSTAT / C), df=(k-1))
         } else {
                  METHOD <- paste("Tukey and Kramer (Nemenyi) test", "
                    with Tukey-Dist approximation for independent samples", sep="\t")
