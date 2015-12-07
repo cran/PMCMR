@@ -49,8 +49,8 @@ posthoc.friedman.conover.test.default <-
     	mat <- matrix(y, nrow = n, ncol = k, byrow = FALSE)
         for (i in 1:length(mat[, 1])) mat[i, ] <- rank(mat[i, ])
         R.sum <- colSums(mat)
-        METHOD <- paste("Conover's multiple comparison test","
-                    for unreplicated blocked data", sep="\t")
+        METHOD <- paste("Conover's test for a two-way","
+                    balanced complete block design", sep="\t")
     
         # Friedman's T1 value
         A1 <- 0
@@ -92,38 +92,6 @@ posthoc.friedman.conover.test.default <-
         rownames(PVAL) <- GRPNAMES[2:k]
         ans <- list(method = METHOD, data.name = DNAME, p.value = PVAL,
                     statistic = PSTAT, p.adjust.method =p.adjust.method)
-        class(ans) <- "pairwise.htest"
+        class(ans) <- "PMCMR"
         ans
-}
-
- 
-posthoc.friedman.conover.test.formula <-
-    function(formula, data, subset, na.action,
-             p.adjust.method = p.adjust.methods, ...)
-{
-    if(missing(formula))
-        stop("formula missing")
-    ## <FIXME>
-    ## Maybe put this into an internal rewriteTwoWayFormula() when
-    ## adding support for strata()
-    if((length(formula) != 3L)
-       || (length(formula[[3L]]) != 3L)
-       || (formula[[3L]][[1L]] != as.name("|"))
-       || (length(formula[[3L]][[2L]]) != 1L)
-       || (length(formula[[3L]][[3L]]) != 1L))
-        stop("incorrect specification for 'formula'")
-    formula[[3L]][[1L]] <- as.name("+")
-    ## </FIXME>
-    m <- match.call(expand.dots = FALSE)
-    m$formula <- formula
-    if(is.matrix(eval(m$data, parent.frame())))
-        m$data <- as.data.frame(data)
-    m[[1L]] <- quote(stats::model.frame)
-    mf <- eval(m, parent.frame())
-    DNAME <- paste(names(mf), collapse = " and ")
-    names(mf) <- NULL
-    y <- do.call("posthoc.friedman.conover.test",
-                 c(as.list(mf), p.adjust.method))
-    y$data.name <- DNAME
-    y
 }

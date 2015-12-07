@@ -62,7 +62,7 @@ function(y, groups, blocks, ...){
         rownames(PVAL) <- GRPNAMES[2:k]
         ans <- list(method = METHOD, data.name = DNAME, p.value = PVAL,
                statistic = PSTAT, p.adjust.method = p.adjust.method)
-        class(ans) <- "pairwise.htest"
+        class(ans) <- "PMCMR"
         ans
 }
 

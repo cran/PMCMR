@@ -1,23 +1,24 @@
-\name{posthoc.friedman.nemenyi.test}
-\alias{posthoc.friedman.nemenyi.test}
-\alias{posthoc.friedman.nemenyi.test.default}
-\alias{posthoc.friedman.nemenyi.test.formula}
+\name{durbin.test}
+\alias{durbin.test}
+\alias{durbin.test.default}
+\alias{durbin.test.formula}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
-Pairwise post-hoc Test for Multiple Comparisons of Mean Rank Sums for Unreplicated Blocked Data (Nemenyi-Test)
+Durbin test
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-Calculate pairwise comparisons using Nemenyi post-hoc test for unreplicated blocked data. This test is usually conducted post-hoc after significant results of the \code{friedman.test}. The statistics refer to upper quantiles of the studentized range distribution (\code{Tukey}).
+The omnibus test according to Durbin tests whether k groups (or
+treatments) in a two-way balanced incomplete block design (BIBD) have identical effects.
 }
 \usage{
-posthoc.friedman.nemenyi.test(y, \dots)
+durbin.test(y, \dots)
 
-\method{posthoc.friedman.nemenyi.test}{default} (y, groups, blocks,
+\method{durbin.test}{default} (y, groups, blocks,
 \dots)
 
-\method{posthoc.friedman.nemenyi.test}{formula} (formula, data, subset,
+\method{durbin.test}{formula} (formula, data, subset,
 na.action, \ldots)
 
 }
@@ -51,15 +52,21 @@ na.action, \ldots)
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
-A one-way ANOVA with repeated measures that is also referred to as ANOVA with unreplicated block design can also be conducted via the \code{friedman.test}. The consequent post-hoc pairwise multiple comparison test according to Nemenyi is conducted with this function.
+The \code{friedman.test} can be used to test k groups (treatments) for
+identical effects in a two-way balanced complete
+block design. In the case of an two-way balanced incomplete block
+design, the Durbin test 
+can be employed. The H0 is rejected, if at least one group (treatment) is
+significantly different. The Durbin test is equivalent to the Friedman test in
+the case of a two-way balanced complete block design.
 
-If \emph{y} is a matrix, than the columns refer to the treatment and the rows indicate the block.
+If \emph{y} is a matrix, than the columns refer to the groups (treatment) and the rows indicate the block.
 
 See \code{vignette("PMCMR")} for details.
 }
 
 \value{
-A list with class "PMCMR"
+A list with class "PMCMR":
 %%  ~Describe the value returned
 %%  If it is a LIST, use
   \item{method }{The applied method.}
@@ -67,36 +74,45 @@ A list with class "PMCMR"
   \item{p.value}{The p-value according to the studentized range distribution.}
   \item{statistic}{The estimated upper quantile of the studentized range distribution.}
   \item{p.adjust.method}{Defaults to "none"}
-
-
-%% ...
 }
 \references{
 %% ~put references to the literature/web site here ~
-Janez Demsar (2006), Statistical comparisons of classifiers over multiple data sets, \emph{Journal of Machine Learning Research}, 7, 1-30. 
+W. J. Conover (1999), \emph{Practical nonparametric Statistics},
+3rd. Edition, Wiley.
 
-P. Nemenyi (1963) \emph{Distribution-free Multiple Comparisons}. Ph.D. thesis, Princeton University.
-
-Lothar Sachs (1997), \emph{Angewandte Statistik}. Berlin: Springer. Pages: 668-675. 
+N. A. Heckert and J. J. Filliben (2003). NIST Handbook 148: Dataplot Reference Manual, Volume 2: Let Subcommands and Library Functions. National Institute of Standards and Technology Handbook Series, June 2003.
 }
 \author{
 %%  ~~who you are~~
 Thorsten Pohlert
 }
 \note{
-%%  ~~further notes~~
+  %%  ~~further notes~~
+The function does not test, whether it is a true BIBD.
+  
 This function does not test for ties.
 }
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 \code{\link{friedman.test}},
-\code{\link{kruskal.test}},
-\code{\link{posthoc.kruskal.nemenyi.test}},
-\code{\link{Tukey}} 
+\code{\link{posthoc.durbin.test}}
 }
 \examples{
-##
+## Example for an incomplete block design:
+## Data from Conover (1999, p. 391).
+y <- matrix(c(
+2,NA,NA,NA,3, NA,  3,  3,  3, NA, NA, NA,  3, NA, NA,
+  1,  2, NA, NA, NA,  1,  1, NA,  1,  1,
+NA, NA, NA, NA,  2, NA,  2,  1, NA, NA, NA, NA,
+  3, NA,  2,  1, NA, NA, NA, NA,  3, NA,  2,  2
+), ncol=7, nrow=7, byrow=FALSE,
+dimnames=list(1:7, LETTERS[1:7]))
+y
+durbin.test(y)
+
+
+## Example for a complete block design:
 ## Sachs, 1997, p. 675
 ## Six persons (block) received six different diuretics (A to F, treatment).
 ## The responses are the Na-concentration (mval)
@@ -108,13 +124,13 @@ y <- matrix(c(
 26.67, 4.44, 7.94, 4.04, 4.4, 4.23, 4.36, 29.41, 30.72,
 32.92, 28.23, 23.35, 12, 38.87, 33.12, 39.15, 28.06, 38.23,
 26.65),nrow=6, ncol=6, 
-dimnames=list(1:6,c("A","B","C","D","E","F")))
+dimnames=list(1:6,LETTERS[1:6]))
 print(y)
 friedman.test(y)
-posthoc.friedman.nemenyi.test(y)
+durbin.test(y)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ htest }
 \keyword{ nonparametric}
-%\keyword{ ~htest }% __ONLY ONE__ keyword per line
+

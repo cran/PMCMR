@@ -25,14 +25,6 @@ na.action, p.adjust.method = p.adjust.methods, \dots)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-%%  \item{x}{
-%%     ~~Describe \code{x} here~~
-%%   response vector. 
-%%}
-%%  \item{g}{
-%%     ~~Describe \code{g} here~~
-%%  grouping vector or factor.
-%}
   \item{x}{a numeric vector of data values, or a list of numeric data
     vectors.}
   \item{g}{a vector or factor object giving the group for the
@@ -50,7 +42,8 @@ na.action, p.adjust.method = p.adjust.methods, \dots)
   \item{na.action}{a function which indicates what should happen when
     the data contain \code{NA}s.  Defaults to
     \code{getOption("na.action")}.}
-  \item{p.adjust.method}{Method for adjusting p values (see \code{\link{p.adjust}}).}
+  \item{p.adjust.method}{Method for adjusting p values
+    (see \code{\link{p.adjust}}).}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{
@@ -61,7 +54,7 @@ See \code{vignette("PMCMR")} for details.
 }
 
 \value{
-Object of class \code{"pairwise.htest"}
+A list with class \code{"PMCMR"}
 %%  ~Describe the value returned
 %%  If it is a LIST, use
   \item{method }{The applied method.}
@@ -109,5 +102,6 @@ posthoc.kruskal.dunn.test(count ~ spray, data = InsectSprays, p.adjust="bonf")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~htest }
-%\keyword{ ~htest }% __ONLY ONE__ keyword per line
+\keyword{ htest }
+\keyword{ nonparametric}
+

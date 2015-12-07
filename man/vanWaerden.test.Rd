@@ -2,7 +2,7 @@
 \alias{vanWaerden.test}
 \alias{vanWaerden.test.default}
 \alias{vanWaerden.test.formula}
-\title{van der Waerden's z-score test}
+\title{van der Waerden's normal scores test}
 \description{
   Performs a van der Waerden's normal scores test.
 }
@@ -42,7 +42,7 @@ vanWaerden.test(x, \dots)
   See \code{vignette("PMCMR")} for details.
 }
 \value{
-  A list with class \code{"htest"} containing the following components:
+  A list with class \code{"htest"} that contains the following components:
   \item{statistic}{the van der Waerden chi-squared statistic.}
   \item{parameter}{the degrees of freedom of the approximate
     chi-squared distribution of the test statistic.}
@@ -75,3 +75,4 @@ detach(InsectSprays)
 rm(InsectSprays)
 }
 \keyword{htest}
+\keyword{ nonparametric}

@@ -1,6 +1,45 @@
 \name{NEWS}
 \title{PMCMR News}
 \encoding{UTF-8}
+\section{CHANGES IN PMCMR VERSION 4.0}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item The function \code{get.pvalues} was included to extract the
+      p-values from a \code{PMCMR} object or a
+      \code{pairwise.htest} object.It can be further processed with
+      \code{multcompLetters} from the package \code{multcompView} to
+      find and indicate homogeneous groups for a given level of
+      significance.
+      
+      \item The functions \code{durbin.test} and
+      \code{posthoc.durbin.test} were added 
+      to test wether k treatments in a two-way balanced incomplete
+      block design have identical effects.
+      
+      \item The function \code{posthoc.quade.test} was added for
+      multiple pairwise comparisons of rank sums for
+      unreplicated blocked data.
+
+      \item The Jonckheere-Terpstrata test, \code{jonckheere.test}, 
+      was added as an omnibus test for testing k independent samples
+      against ordered alternatives.
+
+      \item A \code{print.PMCMR} and \code{summary.PMCMR} was added.
+       
+      \item The keyword \code{nonparametric} was
+      inserted into each .Rd file.
+    }
+  }
+   \subsection{BUGFIXES}{
+    \itemize{
+      \item Title in \code{.Rd}-file of \code{vanWaerden.test} was
+      changed into van der Waerden's normal scores test.
+
+      \item The formula method for \code{posthoc.friedman.conover.test}
+      was disabled, because it does not work.
+    }
+  }
+}
 \section{CHANGES IN PMCMR VERSION 3.0}{
   \subsection{NEW FEATURES}{
     \itemize{
@@ -14,10 +53,15 @@
       added to the package.
       
       \item The Conover-test, \code{posthoc.friedman.conover.test}, 
-      for multiple comparisons following a Friedman test was added to the package.
+      for multiple comparisons following a Friedman test was added
+      to the package.
+      
       \item The Conover-test, \code{posthoc.kruskal.conover.test}, 
-      for multiple comparisons following a Kruskal test was added to the package.
-      \item The NAMSPACE file, VIGNETTE and the .Rd files were updated accordingly.
+      for multiple comparisons following a Kruskal test was added
+      to the package.
+      
+      \item The NAMSPACE file, VIGNETTE and the .Rd files
+      were updated accordingly.
     }
   }
   \subsection{BUGFIXES}{

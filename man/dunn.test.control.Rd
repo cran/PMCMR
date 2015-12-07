@@ -38,7 +38,7 @@ See the vignette for details.
 }
 
 \value{
-Object of class \code{"pairwise.htest"}
+A list with class \code{"PMCMR"}
 %%  ~Describe the value returned
 %%  If it is a LIST, use
   \item{method }{The applied method.}
@@ -92,5 +92,5 @@ rm(PlantGrowth)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~htest }
-%\keyword{ ~htest }% __ONLY ONE__ keyword per line
+\keyword{ htest }
+\keyword{ nonparametric}

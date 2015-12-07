@@ -61,7 +61,7 @@ See \code{vignette("PMCMR")} for details.
 }
 
 \value{
-Object of class \code{"pairwise.htest"}
+A list with class \code{"PMCMR"}
 %%  ~Describe the value returned
 %%  If it is a LIST, use
   \item{method }{The applied method.}
@@ -107,5 +107,6 @@ posthoc.kruskal.conover.test(count ~ spray, data = InsectSprays, p.adjust="bonf"
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~htest }
+\keyword{ htest }
+\keyword{ nonparametric}
 %\keyword{ ~htest }% __ONLY ONE__ keyword per line

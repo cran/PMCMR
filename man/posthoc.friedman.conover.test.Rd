@@ -1,7 +1,7 @@
 \name{posthoc.friedman.conover.test}
 \alias{posthoc.friedman.conover.test}
 \alias{posthoc.friedman.conover.test.default}
-\alias{posthoc.friedman.conover.test.formula}
+%\alias{posthoc.friedman.conover.test.formula}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -20,8 +20,8 @@ posthoc.friedman.conover.test(y, \dots)
 \method{posthoc.friedman.conover.test}{default} (y, groups, blocks,
 p.adjust.method = p.adjust.methods, \dots)
 
-\method{posthoc.friedman.conover.test}{formula} (formula, data, subset,
-na.action, p.adjust.method = p.adjust.methods,\ldots)
+%\method{posthoc.friedman.conover.test}{formula} (formula, data, subset,
+%na.action, p.adjust.method = p.adjust.methods,\ldots)
 
 }
 
@@ -38,18 +38,18 @@ na.action, p.adjust.method = p.adjust.methods,\ldots)
 \item{blocks}{ a vector giving the block for the corresponding elements
   of \code{y} if this is a vector; ignored if \code{y} is a matrix. If
   not a factor object, it is coerced to one.}
-\item{formula}{a formula of the form \code{a ~ b | c}, where \code{a},
-    \code{b} and \code{c} give the data values and corresponding groups
-    and blocks, respectively.}
-\item{data}{an optional matrix or data frame (or similar: see
-    \code{\link{model.frame}}) containing the variables in the
-    formula \code{formula}.  By default the variables are taken from
-    \code{environment(formula)}.}
-\item{subset}{an optional vector specifying a subset of observations
-  to be used.}
-\item{na.action}{a function which indicates what should happen when
-    the data contain \code{NA}s.  Defaults to
-    \code{getOption("na.action")}.}
+%\item{formula}{a formula of the form \code{a ~ b | c}, where \code{a},
+%    \code{b} and \code{c} give the data values and corresponding groups
+%    and blocks, respectively.}
+%\item{data}{an optional matrix or data frame (or similar: see
+%    \code{\link{model.frame}}) containing the variables in the
+%    formula \code{formula}.  By default the variables are taken from
+%    \code{environment(formula)}.}
+%\item{subset}{an optional vector specifying a subset of observations
+%  to be used.}
+%\item{na.action}{a function which indicates what should happen when
+%    the data contain \code{NA}s.  Defaults to
+%    \code{getOption("na.action")}.}
   \item{p.adjust.method}{Method for adjusting p values
     (see \code{\link{p.adjust}}).}
 \item{\dots}{further arguments to be passed to or from methods.}
@@ -58,13 +58,13 @@ na.action, p.adjust.method = p.adjust.methods,\ldots)
 %%  ~~ If necessary, more details than the description above ~~
 A one-way ANOVA with repeated measures that is also referred to as ANOVA with unreplicated block design can also be conducted via the \code{friedman.test}. The consequent post-hoc pairwise multiple comparison test according to Conover is conducted with this function.
 
-If \emph{y} is a matrix, than the colums refer to the treatment and the rows indicate the block.
+If \emph{y} is a matrix, than the columns refer to the treatment and the rows indicate the block.
 
 See \code{vignette("PMCMR")} for details.
 }
 
 \value{
-Object of class "pairwise.htest"
+A list with class "PMCMR"
 %%  ~Describe the value returned
 %%  If it is a LIST, use
   \item{method }{The applied method.}
@@ -120,5 +120,6 @@ posthoc.friedman.conover.test(y=y, p.adjust="none")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~htest }
+\keyword{ htest }
+\keyword{ nonparametric}
 %\keyword{ ~htest }% __ONLY ONE__ keyword per line
