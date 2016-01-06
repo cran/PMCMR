@@ -31,4 +31,3 @@ S3method(durbin.test, formula)
 S3method(posthoc.durbin.test, default)
 S3method(print, PMCMR)
 S3method(summary, PMCMR)
-

@@ -9,7 +9,12 @@ Pairwise post-hoc Test for Multiple Comparisons of Mean Rank Sums for Unreplicat
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-Calculate pairwise comparisons using Nemenyi post-hoc test for unreplicated blocked data. This test is usually conducted post-hoc after significant results of the \code{friedman.test}. The statistics refer to upper quantiles of the studentized range distribution (\code{Tukey}).
+Calculate pairwise comparisons using Nemenyi post-hoc test for
+unreplicated blocked data. This test is usually conducted post-hoc after
+significant results of the \code{friedman.test}. The statistics refer to
+upper quantiles of the studentized range distribution (\code{Tukey}).
+
+
 }
 \usage{
 posthoc.friedman.nemenyi.test(y, \dots)
@@ -19,7 +24,6 @@ posthoc.friedman.nemenyi.test(y, \dots)
 
 \method{posthoc.friedman.nemenyi.test}{formula} (formula, data, subset,
 na.action, \ldots)
-
 }
 
 %- maybe also 'usage' for other objects documented here.
@@ -56,6 +60,20 @@ A one-way ANOVA with repeated measures that is also referred to as ANOVA with un
 If \emph{y} is a matrix, than the columns refer to the treatment and the rows indicate the block.
 
 See \code{vignette("PMCMR")} for details.
+
+Let \eqn{R_j} and \eqn{n_j} denote the sum of Friedman-ranks and the sample
+size of the \eqn{j}-th group, respectively, then a difference between
+two groups is significant on the level of \eqn{\alpha}, if the following
+inequality is met:
+
+\deqn{\left| \frac{R_i}{n_i} - \frac{R_j}{n_j} \right| >
+  \frac{q_{\infty;k;\alpha}}{\sqrt{2}} \sqrt{\frac{k \left( k + 1
+      \right)}{6  n}}}{%
+  |R_i / n_i - R_j / n_j| > q(\infty; k; \alpha) / 2^0.5 *
+  (k (k + 1) / (6 n))^0.5}
+
+with \eqn{k} the number of groups (or treatments) and \eqn{n} the total
+  number of data.
 }
 
 \value{

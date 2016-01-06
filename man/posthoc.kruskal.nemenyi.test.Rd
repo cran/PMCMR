@@ -26,14 +26,6 @@ c("Tukey", "Chisquare"), \dots)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-%%  \item{x}{
-%%     ~~Describe \code{x} here~~
-%%   response vector. 
-%%}
-%%  \item{g}{
-%%     ~~Describe \code{g} here~~
-%%  grouping vector or factor.
-%}
   \item{x}{a numeric vector of data values, or a list of numeric data
     vectors.}
   \item{g}{a vector or factor object giving the group for the

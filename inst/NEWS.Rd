@@ -1,6 +1,21 @@
 \name{NEWS}
 \title{PMCMR News}
 \encoding{UTF-8}
+
+\section{CHANGES IN PMCMR VERSION 4.1}{
+  \subsection{MODIFICATIONS}{
+    \itemize{
+      \item In \code{posthoc.kruskal.nemenyi.test} and
+      \code{posthoc.friedman.nemenyi.test} the df was set from 1000000
+      to Inf for calculating p-values of Tukey's distribution.
+
+      \item The vignette was checked for Typos and modified.
+
+      \item The reported chi-square statistics in
+      \code{posthoc.kruskal.nemenyi.test} are now corrected for ties.
+    }
+  }
+}
 \section{CHANGES IN PMCMR VERSION 4.0}{
   \subsection{NEW FEATURES}{
     \itemize{

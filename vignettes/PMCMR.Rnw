@@ -13,7 +13,7 @@
 
 \title{The Pairwise Multiple Comparison of Mean Ranks Package (PMCMR)}
 \author{Thorsten Pohlert}
-\date{latest revision: 2015-12-07}
+\date{latest revision: 2016-01-06}
 \begin{document}
 \bibliographystyle{jss}
 
@@ -82,10 +82,11 @@ Provided, that the globally conducted Kruskal-Wallis test indicates significance
   \left[\frac{1}{n_i} + \frac{1}{n_j}\right]},
 \end{equation}
 
-where $q_{\infty;k;\alpha}$ denotes the upper quantile of the studentized range distribution. Although these quantiles can not be computed analytically, as $df = \infty$, a good approximation is to set $df$ very large: such as $q_{1000000;k;\alpha} \sim q_{\infty;k;\alpha}$. This inequality (\ref{eq:tk}) leads to the same critical differences of rank sums ($\left| R_i - R_j \right|$) when multiplied with $n$ for $\alpha = [0.1, 0.5, 0.01]$, as reported in the tables of \citet[pp. 29--31]{Wilcoxon_Wilcox_1964}. In the presence of ties the approach presented by \citet[p. 395]{Sachs_1997} can be employed (\ref{eq:chisq}), provided that $(n_i, n_j, \ldots, n_k \geq 6$) and $k \geq 4$.:
+where $q_{\infty;k;\alpha}$ denotes the upper quantile of the studentized range distribution. % Although these quantiles can not be computed analytically, as $df = \infty$, a good approximation is to set $df$ very large: such as $q_{1000000;k;\alpha} \sim q_{\infty;k;\alpha}$. 
+This inequality (\ref{eq:tk}) leads to the same critical differences of rank sums ($\left| R_i - R_j \right|$) when multiplied with $n$ for $\alpha = [0.1, 0.5, 0.01]$, as reported in the tables of \citet[pp. 29--31]{Wilcoxon_Wilcox_1964}. In the presence of ties the approach presented by \citet[p. 395]{Sachs_1997} can be employed (\ref{eq:chisq}), provided that $(n_i, n_j, \ldots, n_k \geq 6$) and $k \geq 4$.:
 
 \begin{equation}\label{eq:chisq}
-\left| \bar{R}_i - \bar{R}_j \right| > \sqrt{C   \chi^{2}_{k-1;\alpha}   \left[\frac{n \left( n + 1 \right)}{12} \right] 
+\left| \bar{R}_i - \bar{R}_j \right| > \sqrt{\frac{1}{C} ~ \chi^{2}_{k-1;\alpha} \left[\frac{n \left( n + 1 \right)}{12} \right] 
   \left[\frac{1}{n_i} + \frac{1}{n_j}\right]},
 \end{equation}
 
@@ -133,7 +134,7 @@ As there are ties present in the data, one may also conduct the Chi-square appro
 (out <- posthoc.kruskal.nemenyi.test(x=count, g=spray, dist="Chisquare"))
 @
 
-which leads to different levels of significance, but to the same test decision.  The arguments of the returned object of class \texttt{pairwise.h.test} can be further explored. The statistics, in this case the $\chi^{2}$ estimations, can be taken in this way:
+which leads to different levels of significance, but to the same test decision.  The arguments of the returned object of class \texttt{PMCMR} can be further explored. The statistics, in this case the $\chi^{2}$ estimations, can be taken in this way:
 
 <<>>=
 print(out$statistic)

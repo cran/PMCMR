@@ -1,7 +1,7 @@
 # posthoc.friedman.nemenyi.test.R
 # Part of the R package: PMCMR
 #
-# Copyright (C) 2014, 2015 Thorsten Pohlert
+# Copyright (C) 2014, 2015, 2016 Thorsten Pohlert
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -55,7 +55,9 @@ function(y, groups, blocks, ...){
             return(qval)
         }
         PSTAT <- pairwise.table(compare.stats,levels(groups), p.adjust.method="none" ) * sqrt(2)
-        PVAL <- 1 - ptukey(PSTAT, nmeans=k, df=1000000)
+         ## Set df to Inf
+        ###PVAL <- 1 - ptukey(PSTAT, nmeans=k, df=1000000)
+        PVAL <- 1 - ptukey(PSTAT, nmeans=k, df=Inf)
         colnames(PSTAT) <- GRPNAMES[1:(k-1)]
         rownames(PSTAT) <- GRPNAMES[2:k]
         colnames(PVAL) <- GRPNAMES[1:(k-1)]

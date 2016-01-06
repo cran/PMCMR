@@ -1,6 +1,6 @@
 #  print.PMCMR.R
 #
-#  Copyright (C) 2015 Thorsten Pohlert
+#  Copyright (C) 2015, 2016 Thorsten Pohlert
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -36,10 +36,10 @@ function(object, ...)
     cat("\nP value adjustment method:", object$p.adjust.method, "\n")
     xdf <- data.frame(H0 = H0[OK], statistic = stat[OK],
                       p.value = format.pval(pval[OK], 2))
-    out <- list(x = xdf,
-                p.adjust.method = object$p.adjust.method,
-                method = object$method,
-                data.name = object$data.name)
+#    out <- list(x = xdf,
+#                p.adjust.method = object$p.adjust.method,
+#                method = object$method,
+#                data.name = object$data.name)
 #    class(out) <- "summary.PMCMR"
 #    out
     print(xdf)

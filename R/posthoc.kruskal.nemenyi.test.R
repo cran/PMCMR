@@ -1,7 +1,7 @@
 # posthoc.kruskal.nemenyi.test.R
 # Part of the R package: PMCMR
 #
-# Copyright (C) 2014, 2015 Thorsten Pohlert
+# Copyright (C) 2014, 2015, 2016 Thorsten Pohlert
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -88,20 +88,25 @@ function(x, g, dist = c("Tukey","Chisquare"), ...){
 
         C <- getties(x.rank, n)
         if (C != 1) warning("Ties are present. Chi-sq was corrected for ties.")
-        PVAL <- 1 - pchisq((PSTAT / C), df=(k-1))
+          ## Must be devided by C, same as in stats::kruskal.test
+        PSTAT <- PSTAT / C
+        PVAL <- 1 - pchisq(PSTAT, df=(k-1))
         } else {
-                 METHOD <- paste("Tukey and Kramer (Nemenyi) test", "
+            METHOD <- paste("Tukey and Kramer (Nemenyi) test", "
                    with Tukey-Dist approximation for independent samples", sep="\t")
-         compare.stats <- function(i,j) {
-            dif <- abs(R.bar[i] - R.bar[j])
-            qval <- dif / sqrt((n * (n + 1) / 12) * (1/R.n[i] + 1/R.n[j] ))
-            return(qval)
+            compare.stats <- function(i,j) {
+                dif <- abs(R.bar[i] - R.bar[j])
+                qval <- dif / sqrt((n * (n + 1) / 12) * (1/R.n[i] + 1/R.n[j] ))
+                return(qval)
+            }
+            PSTAT <- pairwise.table(compare.stats,levels(g),
+                                    p.adjust.method="none" )*sqrt(2)
+            C <- getties(x.rank, n)
+            if (C != 1) warning("Ties are present, p-values are not corrected.")
+            ## This can be df=Inf
+            #PVAL <- 1 - ptukey(PSTAT, nmeans=k, df=1000000)
+            PVAL <- 1 - ptukey(PSTAT, nmeans=k, df=Inf)
         }
-        PSTAT <- pairwise.table(compare.stats,levels(g), p.adjust.method="none" )*sqrt(2)
-        C <- getties(x.rank, n)
-        if (C != 1) warning("Ties are present, p-values are not corrected.")
-        PVAL <- 1 - ptukey(PSTAT, nmeans=k, df=1000000)
-             }
         ans <- list(method = METHOD, data.name = DNAME, p.value = PVAL,
                statistic = PSTAT, p.adjust.method = p.adjust.method)
         class(ans) <- "PMCMR"

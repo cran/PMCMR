@@ -2,20 +2,20 @@
 ### Encoding: UTF-8
 
 ###################################################
-### code chunk number 1: PMCMR.Rnw:102-104
+### code chunk number 1: PMCMR.Rnw:103-105
 ###################################################
 library("graphics")
 boxplot(count ~ spray, data=InsectSprays)
 
 
 ###################################################
-### code chunk number 2: PMCMR.Rnw:112-113
+### code chunk number 2: PMCMR.Rnw:113-114
 ###################################################
 kruskal.test(count ~ spray, data=InsectSprays)
 
 
 ###################################################
-### code chunk number 3: PMCMR.Rnw:118-122
+### code chunk number 3: PMCMR.Rnw:119-123
 ###################################################
 require(PMCMR)
 data(InsectSprays)
@@ -24,25 +24,25 @@ posthoc.kruskal.nemenyi.test(x=count, g=spray, dist="Tukey")
 
 
 ###################################################
-### code chunk number 4: PMCMR.Rnw:126-127
+### code chunk number 4: PMCMR.Rnw:127-128
 ###################################################
 posthoc.kruskal.nemenyi.test(count ~ spray, data=InsectSprays, dist="Tukey")
 
 
 ###################################################
-### code chunk number 5: PMCMR.Rnw:132-133
+### code chunk number 5: PMCMR.Rnw:133-134
 ###################################################
 (out <- posthoc.kruskal.nemenyi.test(x=count, g=spray, dist="Chisquare"))
 
 
 ###################################################
-### code chunk number 6: PMCMR.Rnw:138-139
+### code chunk number 6: PMCMR.Rnw:139-140
 ###################################################
 print(out$statistic)
 
 
 ###################################################
-### code chunk number 7: PMCMR.Rnw:181-185
+### code chunk number 7: PMCMR.Rnw:182-186
 ###################################################
 require(PMCMR)
 data(InsectSprays)
@@ -51,7 +51,7 @@ posthoc.kruskal.dunn.test(x=count, g=spray, p.adjust.method="none")
 
 
 ###################################################
-### code chunk number 8: PMCMR.Rnw:190-194
+### code chunk number 8: PMCMR.Rnw:191-195
 ###################################################
 require(PMCMR)
 data(InsectSprays)
@@ -60,7 +60,7 @@ posthoc.kruskal.dunn.test(x=count, g=spray, p.adjust.method="bonferroni")
 
 
 ###################################################
-### code chunk number 9: PMCMR.Rnw:217-221
+### code chunk number 9: PMCMR.Rnw:218-222
 ###################################################
 require(PMCMR)
 data(InsectSprays)
@@ -69,7 +69,7 @@ posthoc.kruskal.conover.test(x=count, g=spray, p.adjust.method="none")
 
 
 ###################################################
-### code chunk number 10: PMCMR.Rnw:224-228
+### code chunk number 10: PMCMR.Rnw:225-229
 ###################################################
 require(PMCMR)
 data(InsectSprays)
@@ -78,7 +78,7 @@ posthoc.kruskal.conover.test(x=count, g=spray, p.adjust.method="bonferroni")
 
 
 ###################################################
-### code chunk number 11: PMCMR.Rnw:246-251
+### code chunk number 11: PMCMR.Rnw:247-252
 ###################################################
 require(stats) 
 data(PlantGrowth)
@@ -88,13 +88,13 @@ dunn.test.control(x=weight,g=group, p.adjust="bonferroni")
 
 
 ###################################################
-### code chunk number 12: PMCMR.Rnw:257-258
+### code chunk number 12: PMCMR.Rnw:258-259
 ###################################################
 summary.lm(aov(weight ~ group))
 
 
 ###################################################
-### code chunk number 13: PMCMR.Rnw:286-290
+### code chunk number 13: PMCMR.Rnw:287-291
 ###################################################
 require(PMCMR)
 data(InsectSprays)
@@ -103,7 +103,7 @@ vanWaerden.test(x=count, g=spray)
 
 
 ###################################################
-### code chunk number 14: PMCMR.Rnw:304-308
+### code chunk number 14: PMCMR.Rnw:305-309
 ###################################################
 require(PMCMR)
 data(InsectSprays)
@@ -112,7 +112,7 @@ posthoc.vanWaerden.test(x=count, g=spray, p.adjust.method="none")
 
 
 ###################################################
-### code chunk number 15: PMCMR.Rnw:361-370
+### code chunk number 15: PMCMR.Rnw:362-371
 ###################################################
 ## Example from Sachs (1997, p. 402)
 require(PMCMR)
@@ -126,7 +126,7 @@ rm(x,g)
 
 
 ###################################################
-### code chunk number 16: PMCMR.Rnw:405-414
+### code chunk number 16: PMCMR.Rnw:406-415
 ###################################################
 require(PMCMR)
 y <- matrix(c(
@@ -140,7 +140,7 @@ print(y)
 
 
 ###################################################
-### code chunk number 17: PMCMR.Rnw:421-424
+### code chunk number 17: PMCMR.Rnw:422-425
 ###################################################
 library("graphics")
 groups <- gl(6,6,labels=colnames(y))
@@ -148,19 +148,19 @@ boxplot(as.vector(y) ~ groups)
 
 
 ###################################################
-### code chunk number 18: PMCMR.Rnw:431-432
+### code chunk number 18: PMCMR.Rnw:432-433
 ###################################################
 friedman.test(y)
 
 
 ###################################################
-### code chunk number 19: PMCMR.Rnw:437-438
+### code chunk number 19: PMCMR.Rnw:438-439
 ###################################################
 posthoc.friedman.nemenyi.test(y)
 
 
 ###################################################
-### code chunk number 20: PMCMR.Rnw:455-465
+### code chunk number 20: PMCMR.Rnw:456-466
 ###################################################
 require(PMCMR)
 y <- matrix(c(
@@ -175,7 +175,7 @@ posthoc.friedman.conover.test(y=y, p.adjust="none")
 
 
 ###################################################
-### code chunk number 21: PMCMR.Rnw:519-536
+### code chunk number 21: PMCMR.Rnw:520-537
 ###################################################
 ## Conover (1999, p. 375f):
 ## Numbers of five brands of a new hand lotion sold in seven stores
@@ -197,7 +197,7 @@ posthoc.quade.test(y, dist="TDist", p.adj="none")
 
 
 ###################################################
-### code chunk number 22: PMCMR.Rnw:575-586
+### code chunk number 22: PMCMR.Rnw:576-587
 ###################################################
 ## Example for an incomplete block design:
 ## Data from Conover (1999, p. 391).
@@ -213,25 +213,25 @@ durbin.test(y)
 
 
 ###################################################
-### code chunk number 23: PMCMR.Rnw:600-601
+### code chunk number 23: PMCMR.Rnw:601-602
 ###################################################
 posthoc.durbin.test(y, p.adj="none")
 
 
 ###################################################
-### code chunk number 24: PMCMR.Rnw:608-609
+### code chunk number 24: PMCMR.Rnw:609-610
 ###################################################
 print(posthoc.durbin.test(y, p.adj="none"))
 
 
 ###################################################
-### code chunk number 25: PMCMR.Rnw:611-612
+### code chunk number 25: PMCMR.Rnw:612-613
 ###################################################
 summary(posthoc.durbin.test(y, p.adj="none"))
 
 
 ###################################################
-### code chunk number 26: PMCMR.Rnw:618-631
+### code chunk number 26: PMCMR.Rnw:619-632
 ###################################################
 require(multcompView)
 data(InsectSprays)

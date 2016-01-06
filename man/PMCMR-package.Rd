@@ -26,8 +26,8 @@ in this package.
 \tabular{ll}{
 Package: \tab PMCMR \cr
 Type: \tab Package\cr
-Version: \tab 4.0 \cr
-Date: \tab 2015-12-07\cr
+Version: \tab 4.1 \cr
+Date: \tab 2016-01-06\cr
 License: \tab >= GPL-3\cr
 }
 
