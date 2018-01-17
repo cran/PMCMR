@@ -3,4 +3,4 @@ bibentry(bibtype = "Manual",
          author = person("Thorsten", "Pohlert"),
          year = 2014,
          note = "R package",
-         url = "http://CRAN.R-project.org/package=PMCMR")
+         url = "https://CRAN.R-project.org/package=PMCMR")

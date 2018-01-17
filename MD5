@@ -1,4 +1,4 @@
-da11ff7f7d89c7212fbd348d71542a9c *DESCRIPTION
+5a3851f30c300bcc35c38624ab8fcdbc *DESCRIPTION
 85442dc4a81d085a921d41a36ae7227a *NAMESPACE
 ac175540befb758abc943815742f02d2 *R/dunn.test.control.R
 8020d934eac4251e35bc1891ec213afd *R/durbin.test.R
@@ -13,12 +13,13 @@ eb249c941bcda6c1d860365373ff18b8 *R/posthoc.kruskal.nemenyi.test.R
 5f7a620618881979f615f6b607d99006 *R/posthoc.vanWaerden.test.R
 cd1a967b1cc12f990a72e166f4b94960 *R/print.PMCMR.R
 1da987234af68d83d5a9c376fefedf65 *R/vanWaerden.test.R
-562f85dd369b6ebfbbd2e44adff30077 *build/vignette.rds
-0083b3f10da31550bb2a87332c7dd119 *inst/CITATION
+1c4aa40985ef8e1f754981df7c1aef94 *R/zzz.R
+5a1597446b0f797888e330c89de259e3 *build/vignette.rds
+a041a35916e5fb85539a6e734844e8e4 *inst/CITATION
 f2fc86d24f3e3d3ec35e244e6fb3b878 *inst/NEWS.Rd
 3c7b2e9c4c5bd4ad2200f5dd8436b35d *inst/doc/PMCMR.R
-059b712cf3caaecb82d298e1c7dde1a4 *inst/doc/PMCMR.Rnw
-3da8181d23778cd79cc07318999acf45 *inst/doc/PMCMR.pdf
+d5626bd7a4e90505a6f4e9a7074e2795 *inst/doc/PMCMR.Rnw
+abb87ef88142012b58bd0b8ea49e9940 *inst/doc/PMCMR.pdf
 ddff6cd7bb85c495f9c7343155b467b6 *man/PMCMR-package.Rd
 96167c4f3fb0724b2c6c790b61399377 *man/dunn.test.control.Rd
 aac5a8a7083ac264d2ec69ee2029cfba *man/durbin.test.Rd
@@ -35,5 +36,5 @@ ff05766f26b78a991e92e09771b615df *man/posthoc.friedman.conover.test.Rd
 d0dfb502020ac53f6c06abc9a6c6bbf8 *man/print.PMCMR.Rd
 2d9f7670f15996c706c0a8db53659c31 *man/summary.PMCMR.Rd
 73887043b78a7a23ee9e97f6f707958d *man/vanWaerden.test.Rd
-059b712cf3caaecb82d298e1c7dde1a4 *vignettes/PMCMR.Rnw
+d5626bd7a4e90505a6f4e9a7074e2795 *vignettes/PMCMR.Rnw
 2f65cb45a7ae95533e8764240e9346a6 *vignettes/PMCMR.bib
