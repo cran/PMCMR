@@ -6,38 +6,32 @@
 Calculate pairwise multiple comparisons between mean rank sums
 }
 \description{
-The Kruskal and Wallis one-way analysis of variance by ranks 
-or van der Waerden's normal score test can be employed, 
-if the data do not meet the assumptions 
-for one-way ANOVA. Provided that significant differences 
-were detected by the omnibus test, one may be interested 
-in applying post-hoc tests for pairwise multiple comparisons 
-(such as Nemenyi's test, Dunn's test, Conover's test,
-van der Waerden's test). Similarly, one-way ANOVA with repeated 
-measures that is also referred to as ANOVA with unreplicated 
-block design can also be conducted via the Friedman-Test 
-or the Quade-test. The consequent post-hoc pairwise 
-multiple comparison tests according to Nemenyi, Conover and Quade
-are also provided in this package. Finally Durbin's test for 
-a two-way balanced incomplete block design (BIBD) is also given
-in this package.
+   Note, that the 'PMCMR' package is superseded
+   by the novel 'PMCMRplus' package. The 'PMCMRplus'
+   package contains all functions from 
+   'PMCMR' and many more parametric and non-parametric
+   multiple comparison procedures, one-factorial trend
+   tests, as well as improved method functions, 
+   such as print, summary and plot. 
+   The 'PMCMR' package is no longer maintained,
+   but kept for compatibility of reverse depending
+   packages for some time.
 }
 \details{
-\tabular{ll}{
-Package: \tab PMCMR \cr
-Type: \tab Package\cr
-Version: \tab 4.1 \cr
-Date: \tab 2016-01-06\cr
-License: \tab >= GPL-3\cr
-}
-
-See the vignette for details.
-
+  \tabular{ll}{
+    Package: \tab PMCMR \cr
+    Type: \tab Package\cr
+    Version: \tab 4.3 \cr
+    Date: \tab 2018-05-19\cr
+    License: \tab >= GPL-3\cr
+  }
+  
+  See the vignette for details.
+  
 }
 \author{
-Thorsten Pohlert
-
-Maintainer: <thorsten.pohlert@gmx.de>
+  Thorsten Pohlert
+  Maintainer: <thorsten.pohlert@gmx.de>
 }
 \references{
 W. J. Conover and R. L. Iman (1979), \emph{On multiple-comparisons
