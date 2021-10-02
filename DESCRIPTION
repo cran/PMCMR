@@ -1,11 +1,13 @@
 Package: PMCMR
 Type: Package
 Title: Calculate Pairwise Multiple Comparisons of Mean Rank Sums
-Version: 4.3
-Date: 2018-05-19
-Author: Thorsten Pohlert
-Maintainer: Thorsten Pohlert <thorsten.pohlert@gmx.de>
-Description: Note, that the 'PMCMR' package is superseded
+Version: 4.4
+Date: 2021-10-02
+Authors@R: person("Thorsten", "Pohlert", 
+                  role = c("aut", "cre"),
+                  email = "thorsten.pohlert@gmx.de",
+                  comment = c(ORCID = "0000-0003-3855-3025"))
+Description: Note, that the 'PMCMR' package is superset
 	     by the novel 'PMCMRplus' package. The 'PMCMRplus'
 	     package contains all functions from 
 	     'PMCMR' and many more parametric and non-parametric
@@ -15,11 +17,15 @@ Description: Note, that the 'PMCMR' package is superseded
 	     The 'PMCMR' package is no longer maintained,
 	     but kept for compatibility of reverse depending
 	     packages for some time. 
-Depends: R (>= 3.0.0), stats, base
-Suggests: multcompView, xtable, graphics
+Depends: R (>= 3.0.0)
+Imports: stats
+Suggests: multcompView
 Encoding: UTF-8
 License: GPL (>= 3)
 NeedsCompilation: no
-Packaged: 2018-05-19 14:57:16 UTC; thorsten
+RoxygenNote: 7.1.2
+Packaged: 2021-10-02 14:19:45 UTC; thorsten
+Author: Thorsten Pohlert [aut, cre] (<https://orcid.org/0000-0003-3855-3025>)
+Maintainer: Thorsten Pohlert <thorsten.pohlert@gmx.de>
 Repository: CRAN
-Date/Publication: 2018-05-19 15:20:34 UTC
+Date/Publication: 2021-10-02 15:10:09 UTC

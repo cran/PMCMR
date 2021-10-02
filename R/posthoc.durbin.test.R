@@ -16,11 +16,85 @@
 #  A copy of the GNU General Public License is available at
 #  http://www.r-project.org/Licenses/
 
+#' @name PMCMR-deprecated
+#' @aliases posthoc.durbin.test
+#' @title Deprecated Functions in Package \pkg{PMCMR}
+#' @description
+#' These functions are provided for reverse-dependencies
+#' issues of other R-packages. They should no longer be used,
+#' as actively maintained functions can be found in the package
+#' \pkg{PMCMRplus}.
+#' The functions may be defunct as soon as the next release.
+#'
+#' @param y either a numeric vector of data values,
+#' or a data matrix.
+#' @param groups a vector giving the group for
+#' the corresponding elements of \code{y} if this is a vector;
+#' ignored if \code{y} is a matrix.
+#' If not a factor object, it is coerced to one.
+#' @param blocks a vector giving the block for the
+#' corresponding elements of \code{y} if this is a vector;
+#' ignored if \code{y} is a matrix. If not a factor object,
+#' it is coerced to one.
+#' @param p.adjust.method Method for adjusting p values
+#' (see \code{\link[stats]{p.adjust}}).
+#' @param \dots further arguments to be passed to or
+#' from methods.
+#'
+#' @return
+#' A list with class \code{"PMCMR"}
+#' \itemize{
+#'    \item{method }{The applied method.}
+#'    \item{data.name}{The name of the data.}
+#'    \item{p.value}{The two-sided p-value according to the student-t-distribution.}
+#'    \item{statistic}{The estimated quantiles of the
+#'        student-t-distribution.}
+#'    \item{p.adjust.method}{The applied method for p-value adjustment.}
+#' }
+#'
+#' @references
+#' W. J. Conover and R. L. Iman (1979), \emph{On multiple-comparisons
+#'  procedures}, Tech. Rep. LA-7677-MS, Los Alamos Scientific Laboratory.
+#'
+#'  W. J. Conover (1999), \emph{Practical nonparametric Statistics}, 3rd. Edition, Wiley.
+#'
+#' @note
+#' The function does not test, whether it is a true BIBD.
+#'
+#' This function does not test for ties.
+#'
+#' @examples
+#'
+#' \dontrun{
+#' ## Example for an incomplete block design:
+#' ## Data from Conover (1999, p. 391).
+#' y <- matrix(c(2, NA, NA, NA, 3, NA, 3, 3,
+#' 3, NA, NA, NA,  3, NA, NA,
+#' 1,  2, NA, NA, NA,  1,  1, NA,  1,  1,
+#' NA, NA, NA, NA,  2, NA,  2,  1, NA, NA, NA, NA,
+#' 3, NA,  2,  1, NA, NA, NA, NA,  3, NA,  2,  2),
+#' ncol=7, nrow=7, byrow=FALSE,
+#' dimnames=list(1:7, LETTERS[1:7]))
+#'
+#' posthoc.durbin.test(y)
+#' }
+#'
+#' @importFrom stats pt pairwise.table p.adjust.methods
+#' @export
 posthoc.durbin.test <- function(y, ...) UseMethod("posthoc.durbin.test")
 
+#' @rdname PMCMR-deprecated
+#' @aliases posthoc.durbin.test.default
+#' @method posthoc.durbin.test default
+#' @export
 posthoc.durbin.test.default <-
 function(y, groups, blocks,  p.adjust.method = p.adjust.methods, ...)
 {
+
+    .Deprecated(new = "PMCMRplus::durbinAllPairsTest",
+                package = "PMCMR",
+                old = "posthoc.durbin.test")
+
     DNAME <- deparse(substitute(y))
 
     if (is.matrix(y)) {
@@ -47,18 +121,18 @@ function(y, groups, blocks,  p.adjust.method = p.adjust.methods, ...)
         blocks <- factor(blocks)
         GRPNAME <- levels(groups)
     }
-    
+
     ## Need to ensure consistent order.
     o <- order(blocks, groups)
     y <- y[o]
     groups <- groups[o]
     blocks <- blocks[o]
-    
+
     p.adjust.method = match.arg(p.adjust.method)
     t <- nlevels(groups)
     b <- nlevels(blocks)
     r <- unique(table(groups))
-    k <- unique(table(blocks)) 
+    k <- unique(table(blocks))
     rij <- unlist(tapply(y, blocks, rank))
     Rj <- tapply(rij, groups, sum)
     ## Taken from NIST
@@ -72,15 +146,15 @@ function(y, groups, blocks,  p.adjust.method = p.adjust.methods, ...)
     df <- b * k - b - t + 1
    # Pairwise comparisons
     compare.stats <- function(i,j) {
-        dif <- abs(Rj[i] - Rj[j]) 
+        dif <- abs(Rj[i] - Rj[j])
         tval <- dif / denom
         return(tval)
     }
     PSTAT <- pairwise.table(compare.stats,levels(groups),
                             p.adjust.method="none" )
-    
+
     compare.levels <- function(i,j) {
-        dif <- abs(Rj[i] - Rj[j]) 
+        dif <- abs(Rj[i] - Rj[j])
         tval <- dif / denom
         pval <- 2 * pt(q=abs(tval), df=df, lower.tail=FALSE)
         return(pval)

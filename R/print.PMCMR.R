@@ -15,6 +15,24 @@
 #  A copy of the GNU General Public License is available at
 #  http://www.r-project.org/Licenses/
 
+#' @name summary.PMCMR
+#' @aliases summary.PMCMR
+#' @method summary PMCMR
+#' @title Summarizing PMCMR objects
+#' @description
+#' \code{summary} method for class \code{"PMCMR"}.
+#'
+#' @param object an object of class \code{"PMCMR"},
+#' usually, a result of a call to any of the posthoc-tests
+#' included in the package PMCMR.
+#' @param \dots further arguments, currently ignored.
+#'
+#' @return
+#' The function \code{summary.PMCMR} computes and returns a list of the
+#' pairwise comparisons including the H0, the corresponding statistic and
+#' the (adjusted) p-value.
+#'
+#' @keywords methods print
 summary.PMCMR <-
 function(object, ...)
 {
@@ -46,18 +64,27 @@ function(object, ...)
     invisible(object)
 }
 
-#print.summary.PMCMR <-
-#function(x, ...) {
-#    cat("\n\tPairwise comparisons using", x$method, "\n\n")
-#    cat("data: ", x$data.name, "\n\n")
-#    cat("\nP value adjustment method:", x$p.adjust.method, "\n")
-#    print(x$xdf)
-#    invisible(x)
-#}
 
 ## This was taken from package stat
 ## file pairwise.R
 ## (C) 2014 R Core Team, GPL >= 2
+#' @name print.PMCMR
+#' @aliases  print.PMCMR
+#' @title Prints PMCMR objects
+#' @description
+#' \code{print} method for class \code{"PMCMR"}.
+#'
+#' @param x an object of class \code{"PMCMR"}, usually,
+#' a result of a call to any of the posthoc-tests included
+#' in the package PMCMR.
+#' @param \ldots further arguments, currently ignored.
+#'
+#' @return
+#' The function \code{print.PMCMR} returns the lower
+#' triangle of the (adjusted) p-values from any of
+#' the posthoc tests included in the package PMCMR.
+#'
+#' @method print PMCMR
 print.PMCMR <-
 function(x, ...)
 {
@@ -70,6 +97,27 @@ function(x, ...)
     invisible(x)
 }
 
+##
+
+#' @name get.pvalues
+#' @aliases get.pvalues
+#' @title Get Pvalues from PMCMR Objects
+#' @param object either an object of class \code{"PMCMR"}, usually, a result of a
+#' call to any of the posthoc-tests included in the package PMCMR. Or
+#' an object of class \code{"pairwise.htest"}, a result of a call to
+#' \code{\link[stats]{pairwise.prop.test}}, \code{\link[stats]{pairwise.t.test}} or
+#' \code{\link[stats]{pairwise.wilcox.test}}.
+#' @param \dots further arguments, currently ignored.
+#'
+#' @description
+#' Returns a vector of pvalues that includes the names of the pairwise
+#' groups (i.e. the null hypothesis). The output can be used by
+#' \code{\link[multcompView]{multcompLetters}} to find homogeneous groups.
+#'
+#' @return
+#' a named vector with p-values
+#' @keywords utilities
+#' @export
 get.pvalues <-
 function(object, ...)
 {
